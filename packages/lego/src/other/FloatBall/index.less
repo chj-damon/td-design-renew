@@ -1,0 +1,150 @@
+@prefix: .td-lego-float-ball;
+
+@{prefix}-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  background: url(./assets/bottom_bg.png) no-repeat;
+  background-position: center;
+  background-size: contain;
+
+  @{prefix}-ball-container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 142px;
+    height: 142px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border-radius: 50%;
+
+    @{prefix}-label {
+      font-size: 14px;
+    }
+
+    @{prefix}-value {
+      color: #fff;
+      font-size: 32px;
+    }
+  }
+
+  @{prefix}-blue {
+    background-image: url(./assets/blue.png);
+
+    @{prefix}-label {
+      color: #a6c0ff;
+    }
+  }
+
+  @{prefix}-orange {
+    background-image: url(./assets/orange.png);
+
+    @{prefix}-label {
+      color: #ead261;
+    }
+  }
+
+  @{prefix}-green {
+    background-image: url(./assets/green.png);
+
+    @{prefix}-label {
+      color: #61e1ff;
+    }
+  }
+
+  @{prefix}-purple {
+    background-image: url(./assets/purple.png);
+
+    @{prefix}-label {
+      color: #a13ed6;
+    }
+  }
+}
+
+@{prefix}-normal {
+  @{prefix}-blue {
+    top: 10px;
+    left: calc(50% - 70px);
+    width: 142px;
+    height: 142px;
+    animation: float 3.5s ease-in-out infinite;
+  }
+  @{prefix}-orange {
+    top: 100px;
+    left: calc(50% - 170px);
+    width: 126px;
+    height: 126px;
+    animation: longFloat 7s ease-in-out infinite;
+  }
+  @{prefix}-green {
+    top: 100px;
+    left: calc(50% + 54px);
+    width: 122px;
+    height: 122px;
+    animation: longFloat 4.9s ease-in-out infinite;
+  }
+}
+
+@{prefix}-more {
+  @{prefix}-blue {
+    top: 10px;
+    left: calc(50% - 130px);
+    width: 128px;
+    height: 128px;
+    animation: shortFloat 3.5s ease-in-out infinite;
+  }
+  @{prefix}-orange {
+    top: 138px;
+    left: calc(50% - 126px);
+    width: 92px;
+    height: 92px;
+    animation: shortFloat 3.5s ease-in-out infinite;
+  }
+  @{prefix}-green {
+    top: 110px;
+    left: calc(50%);
+    width: 120px;
+    height: 120px;
+    animation: shortFloat 3.5s ease-in-out infinite;
+  }
+  @{prefix}-purple {
+    top: 10px;
+    left: calc(50% + 12px);
+    width: 98px;
+    height: 98px;
+    animation: shortFloat 3.5s ease-in-out infinite;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translatey(-10px);
+  }
+  50% {
+    transform: translatey(10px);
+  }
+}
+
+@keyframes longFloat {
+  0%,
+  100% {
+    transform: translatey(-21px);
+  }
+  50% {
+    transform: translatey(7px);
+  }
+}
+
+@keyframes shortFloat {
+  0%,
+  100% {
+    transform: translatey(-5px);
+  }
+  50% {
+    transform: translatey(5px);
+  }
+}

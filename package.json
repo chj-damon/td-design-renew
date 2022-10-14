@@ -1,0 +1,43 @@
+{
+  "license": "Apache-2.0",
+  "name": "thundersdata-frontend",
+  "author": "陈杰 <chj_0507_dz@sina.com>",
+  "homepage": "https://github.com/thundersdata-frontend/td-design#readme",
+  "scripts": {
+    "build": "turbo run build",
+    "commit": "git-cz",
+    "prepare": "husky install",
+    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
+    "doc:dev": "dumi dev",
+    "doc:build": "dumi build"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.4.7",
+    "@changesets/cli": "^2.25.0",
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "@umijs/plugin-esbuild": "^1.4.2",
+    "commitizen": "^4.2.5",
+    "cz-customizable": "^7.0.0",
+    "dumi": "^1.1.48",
+    "file-loader": "^6.2.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "turbo": "^1.5.6",
+    "yorkie": "^2.0.0"
+  }
+}
