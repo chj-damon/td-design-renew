@@ -46,9 +46,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm i
-        run: cd packages/lego && pnpm i
-        run: cd packages/lego-map && pnpm i
-        run: cd packages/lego-video && pnpm i
 
       - name: Build
         run: pnpm doc:build
