@@ -28,3 +28,5 @@ packages/**/lib/**
 build/**
 dist/**
 .next/**
+
+docs-dist

@@ -1,8 +1,8 @@
 import React, { forwardRef, ReactNode } from 'react';
 import SwiperCore, { Pagination, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper.less';
-import 'swiper/components/pagination/pagination.less';
+import 'swiper/less';
+import 'swiper/less/pagination';
 import './index.less';
 
 SwiperCore.use([Pagination, Autoplay]);

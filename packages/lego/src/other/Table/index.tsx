@@ -2,7 +2,7 @@ import React, { CSSProperties, memo, ReactElement } from 'react';
 
 import SwiperCore, { Autoplay } from 'swiper';
 import Swiper, { ReactIdSwiperChildren } from 'react-id-swiper';
-import 'swiper/components/pagination/pagination.less';
+import 'swiper/less/pagination';
 import './index.less';
 import useTheme from '../../hooks/useTheme';
 import classnames from 'classnames';

@@ -17,6 +17,28 @@ export default defineConfig({
     AMAP_DRILL_JS_KEY: 'dfc9eee6a8e7bff31451ce22e3689e09',
     AMAP_DRILL_JS_SECRET: 'ac1294b1351220044a66c1023f7d5226',
   },
+  extraBabelPlugins: [
+    [
+      'import',
+      {
+        libraryName: 'antd',
+        libraryDirectory: 'es',
+        style: 'css',
+      },
+    ],
+  ],
+  chainWebpack(config) {
+    config.module
+      .rule('ttf')
+      .test(/.(ttf|otf)$/)
+      .use('file-loader')
+      .loader('file-loader');
+    config.module
+      .rule('media')
+      .test(/\.(mp4)$/)
+      .use('file-loader')
+      .loader(require.resolve('file-loader'));
+  },
   navs: [
     {
       title: 'RN组件库',
