@@ -39,5 +39,10 @@
     "prettier": "^2.7.1",
     "turbo": "^1.5.6",
     "yorkie": "^2.0.0"
+  },
+  "packageManager": "pnpm@7.3.0",
+  "engines": {
+    "node": ">=14",
+    "pnpm": ">=7.0.0"
   }
 }
