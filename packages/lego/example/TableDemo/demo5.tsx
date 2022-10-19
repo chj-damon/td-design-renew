@@ -96,9 +96,9 @@ export default () => {
     <Table
       data={data}
       columns={columns}
-      autoLoop={false}
-      height={320}
-      lineHeight={40}
+      autoplay={false}
+      height={200}
+      countPerview={4}
     />
   );
 };

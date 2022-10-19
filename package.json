@@ -9,7 +9,8 @@
     "prepare": "husky install",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "doc:dev": "dumi dev",
-    "doc:build": "dumi build"
+    "doc:build": "dumi build",
+    "changeset": "changeset"
   },
   "config": {
     "commitizen": {
@@ -46,5 +47,9 @@
   "engines": {
     "node": ">=14",
     "pnpm": ">=7.0.0"
+  },
+  "resolutions": {
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
   }
 }

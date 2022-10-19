@@ -1,11 +1,9 @@
 import React, { forwardRef, ReactNode } from 'react';
-import SwiperCore, { Pagination, Autoplay } from 'swiper';
+import { Pagination, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/less';
-import 'swiper/less/pagination';
+import 'swiper/swiper.min.css';
+import 'swiper/modules/pagination/pagination.min.css';
 import './index.less';
-
-SwiperCore.use([Pagination, Autoplay]);
 
 export interface CustomSwiperProps {
   /** 需要轮播的图片 */
@@ -37,6 +35,7 @@ const CustomSwiper = forwardRef<any, CustomSwiperProps>(
       <div className="td-lego-swiper-container">
         {imgs.length > 0 || list.length > 0 ? (
           <Swiper
+            modules={[Pagination, Autoplay]}
             spaceBetween={0}
             slidesPerView={imgNumPerSlide}
             slidesPerGroup={imgNumPerSlide}

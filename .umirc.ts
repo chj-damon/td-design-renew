@@ -9,7 +9,6 @@ export default defineConfig({
   hash: true,
   base: '/td-design',
   publicPath: '/td-design/',
-  mfsu: {},
   exportStatic: {},
   dynamicImport: {},
   define: {
