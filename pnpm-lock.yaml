@@ -42,7 +42,7 @@ importers:
     specifiers:
       '@types/color': ^3.0.3
       '@types/lodash-es': ^4.17.6
-      '@types/node': ^18.8.5
+      '@types/node': ^18.11.2
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
       babel-runtime: ^6.x
@@ -60,7 +60,7 @@ importers:
       less-loader: ^11.1.0
       lodash-es: ^4.17.21
       react: ^18.2.0
-      react-countup: ^6.3.1
+      react-countup: ^6.3.2
       react-dom: ^18.2.0
       react-id-swiper: ^4.0.0
       style-loader: ^3.3.1
@@ -74,13 +74,13 @@ importers:
       echarts-gl: 2.0.9_echarts@5.4.0
       echarts-wordcloud: 2.0.0_echarts@5.4.0
       lodash-es: 4.17.21
-      react-countup: 6.3.1_react@18.2.0
+      react-countup: 6.3.2_react@18.2.0
       react-id-swiper: 4.0.0_dg6umnrcrmllq23j24pyp5zrja
       swiper: 8.4.4
     devDependencies:
       '@types/color': 3.0.3
       '@types/lodash-es': 4.17.6
-      '@types/node': 18.8.5
+      '@types/node': 18.11.2
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
       babel-runtime: 6.26.0
@@ -99,7 +99,7 @@ importers:
     specifiers:
       '@amap/amap-jsapi-loader': ^1.0.1
       '@types/lodash-es': ^4.17.6
-      '@types/node': ^18.8.5
+      '@types/node': ^18.11.2
       '@types/react': ^18.0.21
       '@types/react-dom': ^18.0.6
       babel-runtime: ^6.x
@@ -123,7 +123,7 @@ importers:
       lodash-es: 4.17.21
     devDependencies:
       '@types/lodash-es': 4.17.6
-      '@types/node': 18.8.5
+      '@types/node': 18.11.2
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
       babel-runtime: 6.26.0
@@ -1006,6 +1006,10 @@ packages:
 
   /@types/node/14.18.32:
     resolution: {integrity: sha512-Y6S38pFr04yb13qqHf8uk1nHE3lXgQ30WZbv1mLliV9pt0NjvqdWttLcrOYLnXbOafknVYRHZGoMSpR9UwfYow==}
+    dev: true
+
+  /@types/node/18.11.2:
+    resolution: {integrity: sha512-BWN3M23gLO2jVG8g/XHIRFWiiV4/GckeFIqbU/C4V3xpoBBWSMk4OZomouN0wCkfQFPqgZikyLr7DOYDysIkkw==}
     dev: true
 
   /@types/node/18.8.5:
@@ -8743,8 +8747,8 @@ packages:
     resolution: {integrity: sha512-dSxo2Mn6Zx4HajeCeQNLefwEO4kNtV/0E682R1+ZTyFRPqxDa5zYb5qM/ocqw9Bxr/kFQO0IUiqdV7wdHw+Cdg==}
     dev: true
 
-  /react-countup/6.3.1_react@18.2.0:
-    resolution: {integrity: sha512-+Bf1caAZHtmVQ5Jmhe2MZuN1cw1CEP5OdeMph9CBwM5K8DEDGmg00AzcN6fO9XolUhqUfiR0pOEiSyngSrHwig==}
+  /react-countup/6.3.2_react@18.2.0:
+    resolution: {integrity: sha512-ID3344D1Yo0X5CWQiJYXBpiPCYLwMOw1VvNP9geJE+PqpdDmx6iuoMhxXAqjpdaRWiD6zUnLRK6rrnGgDg09pg==}
     peerDependencies:
       react: '>= 16.3.0'
     dependencies:
