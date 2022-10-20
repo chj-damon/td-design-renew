@@ -1,49 +1,38 @@
-import React, { CSSProperties, forwardRef, useMemo } from 'react';
 import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts/core';
 import {
   PictorialBarChart,
   // 系列类型的定义后缀都为 SeriesOption
   PictorialBarSeriesOption,
 } from 'echarts/charts';
 import {
-  TooltipComponent,
-  TooltipComponentOption,
   // 组件类型的定义后缀都为 ComponentOption
   GridComponent,
   GridComponentOption,
+  TooltipComponent,
+  TooltipComponentOption,
 } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { merge } from 'lodash-es';
+import React, { CSSProperties, forwardRef, useMemo } from 'react';
 
-import createLinearGradient from '../../utils/createLinearGradient';
-import useTheme from '../../hooks/useTheme';
+import { YAXisOption } from 'echarts/types/dist/shared';
 import useBaseChartConfig from '../../hooks/useBaseChartConfig';
 import useChartLoop from '../../hooks/useChartLoop';
-import { YAXisOption } from 'echarts/types/dist/shared';
+import useTheme from '../../hooks/useTheme';
+import createLinearGradient from '../../utils/createLinearGradient';
 
 // 通过 ComposeOption 来组合出一个只有必须组件和图表的 Option 类型
-type ECOption = echarts.ComposeOption<
-  PictorialBarSeriesOption | TooltipComponentOption | GridComponentOption
->;
+type ECOption = echarts.ComposeOption<PictorialBarSeriesOption | TooltipComponentOption | GridComponentOption>;
 
 // 注册必须的组件
-echarts.use([
-  TooltipComponent,
-  GridComponent,
-  PictorialBarChart,
-  CanvasRenderer,
-]);
+echarts.use([TooltipComponent, GridComponent, PictorialBarChart, CanvasRenderer]);
 
 export interface PictorialBarProps {
   xAxisData: any[];
   name: string;
   unit?: string;
-  data: (
-    | string
-    | number
-    | { name: string; value: string | number; unit: string }
-  )[];
+  data: (string | number | { name: string; value: string | number; unit: string })[];
   style?: CSSProperties;
   /** 控制是否自动轮播 */
   autoLoop?: boolean;
@@ -76,7 +65,7 @@ export default forwardRef<ReactEcharts, PictorialBarProps>(
       barColors = [],
       onEvents,
     },
-    ref,
+    ref
   ) => {
     const theme = useTheme();
     const baseChartConfig = useBaseChartConfig(inModal, unit);
@@ -105,10 +94,7 @@ export default forwardRef<ReactEcharts, PictorialBarProps>(
       theme.colors.primary500,
     ]);
 
-    const colors = useMemo(
-      () => baseColors.map((item) => createLinearGradient(item)),
-      [baseColors],
-    );
+    const colors = useMemo(() => baseColors.map(item => createLinearGradient(item)), [baseColors]);
 
     const option = useMemo(() => {
       return merge(
@@ -135,8 +121,7 @@ export default forwardRef<ReactEcharts, PictorialBarProps>(
               name,
               type: 'pictorialBar',
               barCategoryGap: '-100%',
-              symbol:
-                'path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z',
+              symbol: 'path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z',
               data: data.map((item, index) => ({
                 ...(typeof item === 'object' ? item : { value: item, unit }),
                 itemStyle: {
@@ -147,7 +132,7 @@ export default forwardRef<ReactEcharts, PictorialBarProps>(
             },
           ],
         },
-        config,
+        config
       ) as ECOption;
     }, [
       colors,
@@ -163,14 +148,6 @@ export default forwardRef<ReactEcharts, PictorialBarProps>(
       showYAxisLine,
     ]);
 
-    return (
-      <ReactEcharts
-        ref={echartsRef}
-        echarts={echarts}
-        option={option}
-        style={style}
-        onEvents={onEvents}
-      />
-    );
-  },
+    return <ReactEcharts ref={echartsRef} echarts={echarts} option={option} style={style} onEvents={onEvents} />;
+  }
 );

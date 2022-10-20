@@ -18,15 +18,11 @@ export default function ({
           <div className={`${prefixName}-block`}>
             <div className={`${prefixName}-name`}>{name}</div>
             <div className={`${prefixName}-valueContent`}>
-              <div className={`${prefixName}-value`}>
-                {numberScroll ? <ScrollNumber value={value} /> : value}
-              </div>
+              <div className={`${prefixName}-value`}>{numberScroll ? <ScrollNumber value={value} /> : value}</div>
               <div className={`${prefixName}-unit`}>{unit}</div>
             </div>
           </div>
-          {index !== data.length - 1 && (
-            <div className={`${prefixName}-border`}></div>
-          )}
+          {index !== data.length - 1 && <div className={`${prefixName}-border`}></div>}
         </div>
       ))}
     </div>

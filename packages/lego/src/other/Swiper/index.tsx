@@ -1,8 +1,8 @@
-import React, { forwardRef, ReactNode } from 'react';
-import { Pagination, Autoplay } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper.min.css';
+import React, { forwardRef, ReactNode, useImperativeHandle } from 'react';
+import { Autoplay, Pagination } from 'swiper';
 import 'swiper/modules/pagination/pagination.min.css';
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
+import 'swiper/swiper.min.css';
 import './index.less';
 
 export interface CustomSwiperProps {
@@ -23,13 +23,33 @@ export interface CustomSwiperProps {
 }
 
 const CustomSwiper = forwardRef<any, CustomSwiperProps>(
-  (
-    { imgs = [], style, imgNumPerSlide = 1, autoplay, list = [], pagination },
-    ref,
-  ) => {
-    const auto = autoplay?.delay
-      ? { pauseOnMouseEnter: true, disableOnInteraction: false, ...autoplay }
-      : false;
+  ({ imgs = [], style, imgNumPerSlide = 1, autoplay, list = [], pagination }, ref) => {
+    const auto = autoplay?.delay ? { pauseOnMouseEnter: true, disableOnInteraction: false, ...autoplay } : false;
+
+    const swiperInstance = useSwiper();
+
+    useImperativeHandle(ref, () => {
+      return {
+        enable() {
+          swiperInstance.enable();
+        },
+        disable() {
+          swiperInstance.disable();
+        },
+        slideNext() {
+          swiperInstance.slideNext();
+        },
+        slidePrev() {
+          swiperInstance.slidePrev();
+        },
+        slideReset() {
+          swiperInstance.slideReset();
+        },
+        slideTo(index: number, speed?: number) {
+          swiperInstance.slideTo(index, speed);
+        },
+      };
+    });
 
     return (
       <div className="td-lego-swiper-container">
@@ -40,11 +60,8 @@ const CustomSwiper = forwardRef<any, CustomSwiperProps>(
             slidesPerView={imgNumPerSlide}
             slidesPerGroup={imgNumPerSlide}
             loop
-            pagination={
-              pagination === false ? false : { clickable: true, ...pagination }
-            }
+            pagination={pagination === false ? false : { clickable: true, ...pagination }}
             autoplay={auto}
-            ref={ref}
             initialSlide={0}
           >
             {imgs.length > 0
@@ -62,14 +79,12 @@ const CustomSwiper = forwardRef<any, CustomSwiperProps>(
                     />
                   </SwiperSlide>
                 ))
-              : list.map((ele, index) => (
-                  <SwiperSlide key={index}>{ele}</SwiperSlide>
-                ))}
+              : list.map((ele, index) => <SwiperSlide key={index}>{ele}</SwiperSlide>)}
           </Swiper>
         ) : null}
       </div>
     );
-  },
+  }
 );
 
 export default CustomSwiper;

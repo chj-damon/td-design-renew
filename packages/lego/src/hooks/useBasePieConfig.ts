@@ -1,7 +1,4 @@
-import {
-  // 系列类型的定义后缀都为 SeriesOption
-  PieSeriesOption,
-} from 'echarts/charts';
+import { PieSeriesOption } from 'echarts/charts';
 import { useMemo } from 'react';
 import useTheme from './useTheme';
 
@@ -25,7 +22,7 @@ export default function useBasePieConfig(inModal = false) {
         },
       },
     }),
-    [inModal, theme.colors.gray100, theme.colors.gray50, theme.typography],
+    [inModal, theme.colors.gray100, theme.colors.gray50, theme.typography]
   );
 
   return option;

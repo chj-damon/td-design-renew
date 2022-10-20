@@ -1,14 +1,14 @@
-import { useEffect, useRef, useState, ForwardedRef } from 'react';
 import type ReactEcharts from 'echarts-for-react';
-import { useRAF } from './useRAF';
+import { ForwardedRef, useEffect, useRef, useState } from 'react';
 import useEchartsRef from './useEchartsRef';
+import { useRAF } from './useRAF';
 
 export default function useChartLoop(
   ref: ForwardedRef<ReactEcharts>,
   data: any[] = [],
   autoLoop = false,
   duration = 2000,
-  seriesIndex = 0,
+  seriesIndex = 0
 ) {
   // 用来控制当前轮播到哪个
   const [currentIndex, setCurrentIndex] = useState(-1);
@@ -24,13 +24,9 @@ export default function useChartLoop(
 
   useEffect(() => {
     // 开启自动轮播，同时echarts有示例，同时有数据的情况下，才开始
-    if (
-      autoLoop &&
-      (typeof echartsRef === 'function' || echartsRef.current) &&
-      length > 1
-    ) {
+    if (autoLoop && (typeof echartsRef === 'function' || echartsRef.current) && length > 1) {
       timer.current = raf.setInterval(() => {
-        setCurrentIndex((index) => (index >= length - 1 ? 0 : index + 1));
+        setCurrentIndex(index => (index >= length - 1 ? 0 : index + 1));
       }, duration);
     } else {
       setCurrentIndex(-1);

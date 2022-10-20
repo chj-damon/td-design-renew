@@ -1,8 +1,8 @@
-import React, { CSSProperties, forwardRef, useEffect, useState } from 'react';
-import * as echarts from 'echarts/core';
-import ReactEcharts from 'echarts-for-react';
 import type { EChartsOption, SeriesOption } from 'echarts';
+import ReactEcharts from 'echarts-for-react';
+import * as echarts from 'echarts/core';
 import { isArray, merge } from 'lodash-es';
+import React, { CSSProperties, forwardRef, useEffect, useState } from 'react';
 
 import chinaMapJson from '../assets/china';
 import { generate4MapLayers } from '../utils/baseSeries';
@@ -42,7 +42,7 @@ const BasicMap = forwardRef<ReactEcharts, BasicMapProps>(
       onEvents,
       config = {},
     },
-    ref,
+    ref
   ) => {
     const [loading, setLoading] = useState(true);
     const [option, setOption] = useState<any>(config);
@@ -96,20 +96,12 @@ const BasicMap = forwardRef<ReactEcharts, BasicMapProps>(
               ...(configSeries as SeriesOption[]),
             ],
           },
-          restConfig,
-        ),
+          restConfig
+        )
       );
       setLoading(false);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [
-      labelSize,
-      mapJson,
-      mapName,
-      showLabel,
-      silent,
-      top,
-      JSON.stringify(config),
-    ]);
+    }, [labelSize, mapJson, mapName, showLabel, silent, top, JSON.stringify(config)]);
 
     return (
       <ReactEcharts
@@ -121,7 +113,7 @@ const BasicMap = forwardRef<ReactEcharts, BasicMapProps>(
         style={style}
       />
     );
-  },
+  }
 );
 
 export default BasicMap;

@@ -17,9 +17,7 @@ async function buildCJS() {
   });
 
   await tsProject.src().pipe(tsProject()).pipe(gulp.dest('lib/commonjs/'));
-  return gulp
-    .src(['src/**/assets/*', 'src/**/*.less', 'src/**/*.otf'])
-    .pipe(gulp.dest('lib/commonjs/'));
+  return gulp.src(['src/**/assets/*', 'src/**/*.less', 'src/**/*.otf']).pipe(gulp.dest('lib/commonjs/'));
 }
 
 /** 编译成 module */
@@ -28,9 +26,7 @@ async function buildES() {
     module: 'ESNext',
   });
   await tsProject.src().pipe(tsProject()).pipe(gulp.dest('lib/module/'));
-  return gulp
-    .src(['src/**/assets/*', 'src/**/*.less', 'src/**/*.otf'])
-    .pipe(gulp.dest('lib/module/'));
+  return gulp.src(['src/**/assets/*', 'src/**/*.less', 'src/**/*.otf']).pipe(gulp.dest('lib/module/'));
 }
 
 /** 编译成 .d.ts */
@@ -46,10 +42,4 @@ async function copyDeclaration() {
   return gulp.src(['typings.d.ts']).pipe(gulp.dest('lib/typescript/'));
 }
 
-exports.default = gulp.series(
-  clean,
-  buildCJS,
-  buildES,
-  buildDeclaration,
-  copyDeclaration,
-);
+exports.default = gulp.series(clean, buildCJS, buildES, buildDeclaration, copyDeclaration);

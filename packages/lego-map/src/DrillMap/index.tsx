@@ -1,20 +1,12 @@
-import React, {
-  CSSProperties,
-  forwardRef,
-  useMemo,
-  useCallback,
-  useState,
-  useEffect,
-  useRef,
-} from 'react';
-import * as echarts from 'echarts/core';
-import ReactEcharts from 'echarts-for-react';
 import type { EChartsOption, SeriesOption } from 'echarts';
+import ReactEcharts from 'echarts-for-react';
+import * as echarts from 'echarts/core';
 import { isArray, merge } from 'lodash-es';
+import React, { CSSProperties, forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { DistrictInfo, formatAdcode, register } from '../utils';
 import { generate4MapLayers } from '../utils/baseSeries';
 import { genAmapAdcodeUrl, INITIAL_ADCODE } from '../utils/constant';
-import { DistrictInfo, formatAdcode, register } from '../utils';
 
 import './index.less';
 
@@ -52,7 +44,7 @@ const DrillMap = forwardRef<ReactEcharts, DrillMapProps>(
       style,
       silent = false,
     },
-    ref,
+    ref
   ) => {
     const [loading, setLoading] = useState(true);
     const [selectedArea, setSelectedArea] = useState<DistrictInfo>();
@@ -64,13 +56,13 @@ const DrillMap = forwardRef<ReactEcharts, DrillMapProps>(
       fetch(url, {
         method: 'GET',
       })
-        .then((res) => res.json())
-        .then((res) => {
+        .then(res => res.json())
+        .then(res => {
           if (res && res.status === '1' && res.info === 'OK') {
             const _regions = formatAdcode(res.districts, adcode);
             regions.current = _regions;
 
-            const currentArea = _regions.find((item) => item.adcode === adcode);
+            const currentArea = _regions.find(item => item.adcode === adcode);
             setSelectedArea(currentArea);
           }
         });
@@ -91,8 +83,7 @@ const DrillMap = forwardRef<ReactEcharts, DrillMapProps>(
       const { series, ...restConfig } = config;
       const configSeries = isArray(series) ? series : [series];
 
-      const mapName =
-        selectedArea?.adcode === INITIAL_ADCODE ? 'china' : selectedArea!.name;
+      const mapName = selectedArea?.adcode === INITIAL_ADCODE ? 'china' : selectedArea!.name;
       return merge(
         {
           backgroundColor: '',
@@ -133,7 +124,7 @@ const DrillMap = forwardRef<ReactEcharts, DrillMapProps>(
             ...(configSeries as SeriesOption[]),
           ],
         },
-        restConfig,
+        restConfig
       );
     }, [config, labelSize, loading, selectedArea, showLabel, silent, top]);
 
@@ -141,12 +132,8 @@ const DrillMap = forwardRef<ReactEcharts, DrillMapProps>(
     const goBack = useCallback(() => {
       if (!selectedArea) return;
 
-      const currentArea = regions.current.find(
-        (item) => item.adcode === selectedArea.adcode,
-      );
-      const parentArea = regions.current.find(
-        (item) => item.adcode === currentArea!.parent,
-      );
+      const currentArea = regions.current.find(item => item.adcode === selectedArea.adcode);
+      const parentArea = regions.current.find(item => item.adcode === currentArea!.parent);
 
       if (parentArea) {
         register(parentArea.name, parentArea.adcode, () => {
@@ -163,7 +150,7 @@ const DrillMap = forwardRef<ReactEcharts, DrillMapProps>(
         // 根据 name，找到对应的地图
         const { name } = params;
         // 首先需要根据 name 转换成对应的 adCode
-        const area = regions.current?.find((item) => item.name === name);
+        const area = regions.current?.find(item => item.name === name);
 
         // 判断 area 的 level
         if (area?.level === 'district' || area?.level === 'country') return;
@@ -174,7 +161,7 @@ const DrillMap = forwardRef<ReactEcharts, DrillMapProps>(
           });
         }
       },
-      [enableDrill],
+      [enableDrill]
     );
 
     const events = useMemo(() => {
@@ -188,13 +175,11 @@ const DrillMap = forwardRef<ReactEcharts, DrillMapProps>(
 
     return (
       <div className="td-lego-map-container">
-        {selectedArea?.adcode &&
-          selectedArea.adcode !== adcode &&
-          selectedArea.level !== 'country' && (
-            <div className="td-lego-map-return-btn" onClick={goBack}>
-              {'< 返回上级'}
-            </div>
-          )}
+        {selectedArea?.adcode && selectedArea.adcode !== adcode && selectedArea.level !== 'country' && (
+          <div className="td-lego-map-return-btn" onClick={goBack}>
+            {'< 返回上级'}
+          </div>
+        )}
         <ReactEcharts
           ref={ref}
           echarts={echarts}
@@ -205,7 +190,7 @@ const DrillMap = forwardRef<ReactEcharts, DrillMapProps>(
         />
       </div>
     );
-  },
+  }
 );
 
 export default DrillMap;

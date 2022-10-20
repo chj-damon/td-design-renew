@@ -1,38 +1,23 @@
-import React, {
-  CSSProperties,
-  useMemo,
-  useRef,
-  useState,
-  useEffect,
-  useCallback,
-  forwardRef,
-} from 'react';
 import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts/core';
 import { PieChart, PieSeriesOption } from 'echarts/charts';
-import {
-  TooltipComponent,
-  TooltipComponentOption,
-  GraphicComponent,
-  GraphicComponentOption,
-} from 'echarts/components';
+import { GraphicComponent, GraphicComponentOption, TooltipComponent, TooltipComponentOption } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { merge } from 'lodash-es';
+import React, { CSSProperties, forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import createLinearGradient from '../../utils/createLinearGradient';
-import useTheme from '../../hooks/useTheme';
-import useBasePieConfig from '../../hooks/useBasePieConfig';
 import useBaseChartConfig from '../../hooks/useBaseChartConfig';
+import useBasePieConfig from '../../hooks/useBasePieConfig';
+import useTheme from '../../hooks/useTheme';
+import createLinearGradient from '../../utils/createLinearGradient';
 
-import imgPieGraphic from '../../assets/img_pie_graphic.png';
 import imgPieBg from '../../assets/img_pie_bg.webp';
-import { useRAF } from '../../hooks/useRAF';
-import useStyle from '../../hooks/useStyle';
+import imgPieGraphic from '../../assets/img_pie_graphic.png';
 import useEchartsRef from '../../hooks/useEchartsRef';
 import useNodeBoundingRect from '../../hooks/useNodeBoundingRect';
+import { useRAF } from '../../hooks/useRAF';
+import useStyle from '../../hooks/useStyle';
 
-type ECOption = echarts.ComposeOption<
-  PieSeriesOption | TooltipComponentOption | GraphicComponentOption
->;
+type ECOption = echarts.ComposeOption<PieSeriesOption | TooltipComponentOption | GraphicComponentOption>;
 
 echarts.use([TooltipComponent, PieChart, GraphicComponent]);
 
@@ -48,18 +33,7 @@ export interface ImgPieProps {
 
 /** 带图片的饼图-对应Figma饼图3 */
 export default forwardRef<ReactEcharts, ImgPieProps>(
-  (
-    {
-      data = [],
-      style,
-      imgStyle,
-      autoLoop = false,
-      config,
-      pieColors = [],
-      onEvents,
-    },
-    ref,
-  ) => {
+  ({ data = [], style, imgStyle, autoLoop = false, config, pieColors = [], onEvents }, ref) => {
     const theme = useTheme();
     const baseChartConfig = useBaseChartConfig();
     const basePieConfig = useBasePieConfig();
@@ -127,18 +101,15 @@ export default forwardRef<ReactEcharts, ImgPieProps>(
     }, [currentIndex, length, echartsRef, data, getInstance]);
 
     // 记录图例的显示下标
-    const legendselectchanged = useCallback(
-      ({ selected }: { selected: { [name: string]: boolean } }) => {
-        const selectArr: number[] = [];
-        Object.keys(selected).forEach((key, index) => {
-          if (selected[key]) {
-            selectArr.push(index);
-          }
-        });
-        setActiveLegends(selectArr);
-      },
-      [],
-    );
+    const legendselectchanged = useCallback(({ selected }: { selected: { [name: string]: boolean } }) => {
+      const selectArr: number[] = [];
+      Object.keys(selected).forEach((key, index) => {
+        if (selected[key]) {
+          selectArr.push(index);
+        }
+      });
+      setActiveLegends(selectArr);
+    }, []);
 
     const baseColors = useMemo(() => {
       if (pieColors?.length > 0 && pieColors?.length >= data?.length) {
@@ -163,18 +134,15 @@ export default forwardRef<ReactEcharts, ImgPieProps>(
       theme.colors.primary500,
     ]);
 
-    const colors = useMemo(
-      () => baseColors.map((item) => createLinearGradient(item)),
-      [baseColors],
-    );
+    const colors = useMemo(() => baseColors.map(item => createLinearGradient(item)), [baseColors]);
 
     const option = useMemo(() => {
       const total = Math.round(
         data
-          .map((item) => +item.value)
+          .map(item => +item.value)
           .reduce((value: number, total: number) => {
             return value + total;
-          }, 0),
+          }, 0)
       );
 
       const gapValue = Number(total) * 0.01;
@@ -183,7 +151,7 @@ export default forwardRef<ReactEcharts, ImgPieProps>(
       if (data.length == 1) {
         seriesData.push(data[0]);
       } else {
-        data.forEach((ele) => {
+        data.forEach(ele => {
           seriesData.push(
             {
               value: +ele.value,
@@ -198,7 +166,7 @@ export default forwardRef<ReactEcharts, ImgPieProps>(
                 borderColor: 'rgba(0, 0, 0, 0)',
                 borderWidth: 0,
               },
-            },
+            }
           );
         });
       }
@@ -209,7 +177,7 @@ export default forwardRef<ReactEcharts, ImgPieProps>(
           legend: {
             ...baseChartConfig.legend,
             orient: 'horizontal',
-            data: seriesData.filter((i) => i.name),
+            data: seriesData.filter(i => i.name),
           },
           graphic: {
             elements: [
@@ -241,9 +209,7 @@ export default forwardRef<ReactEcharts, ImgPieProps>(
               position: 'center',
               formatter: ({ name }: { name: string }) => {
                 if (!name) return;
-                return `{a|${name}}{b|\n${Number(
-                  seriesData.find((item) => item.name === name)?.percent,
-                ).toFixed(1)}%}`;
+                return `{a|${name}}{b|\n${Number(seriesData.find(item => item.name === name)?.percent).toFixed(1)}%}`;
               },
               rich: {
                 a: {
@@ -269,7 +235,7 @@ export default forwardRef<ReactEcharts, ImgPieProps>(
             },
           },
         },
-        config,
+        config
       ) as ECOption;
     }, [
       baseChartConfig.legend,
@@ -308,5 +274,5 @@ export default forwardRef<ReactEcharts, ImgPieProps>(
         ;
       </div>
     );
-  },
+  }
 );

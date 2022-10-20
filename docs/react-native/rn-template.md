@@ -120,7 +120,7 @@ export default () => {
     <Form
       component={false} // 在RN中使用，必须配置为false
       form={form}
-      onFinish={(values) => {
+      onFinish={values => {
         console.log('Finish:', values);
       }}
     >
@@ -152,8 +152,8 @@ export default () => {
 
 ```tsx | pure
 import React, { FC } from 'react';
-import { View, Text, Button } from 'react-native';
 import { ErrorBoundary } from 'react-error-boundary';
+import { Button, Text, View } from 'react-native';
 
 function errorHandler(error: Error) {
   // 对error做处理，比如接入Sentry进行异常上报
@@ -197,20 +197,13 @@ export default HomepageScreen() {
 到目前为止，我们已经可以对组件的异常进行很好的处理，接下来我们来看看 JS 异常和原生模块异常我们应该怎么捕获。我们需要借助`react-native-exception-handler`。在项目根目录下的`index.js`里面添加以下代码：
 
 ```js
-import {
-  setJSExceptionHandler,
-  setNativeExceptionHandler,
-} from 'react-native-exception-handler';
+import { setJSExceptionHandler, setNativeExceptionHandler } from 'react-native-exception-handler';
 
 setJSExceptionHandler((error, isFatal) => {
   // 在这里进行处理，比如做一个弹窗提示，或者把异常上报给sentry
 });
 
-setNativeExceptionHandler(
-  nativeExceptionHandler,
-  forceAppQuit,
-  executeDefaultHandler,
-);
+setNativeExceptionHandler(nativeExceptionHandler, forceAppQuit, executeDefaultHandler);
 ```
 
 ## 优化 git 提交记录
@@ -250,7 +243,7 @@ setNativeExceptionHandler(
 // 自定义hooks
 export default function useCounter() {
   const [count, setCount] = useState(0);
-  const increment = useCallback(() => setCount((x) => x + 1), []);
+  const increment = useCallback(() => setCount(x => x + 1), []);
 
   return { count, increment };
 }
@@ -286,7 +279,7 @@ test('should increment counter', () => {
 export default function useCounterWithProps(initialValue = 0) {
   const [count, setCount] = useState(initialValue);
 
-  const increment = useCallback(() => setCount((x) => x + 1), []);
+  const increment = useCallback(() => setCount(x => x + 1), []);
 
   const reset = useCallback(() => setCount(initialValue), [initialValue]);
 
@@ -308,14 +301,11 @@ test('should increment counter from custom initial value', () => {
 });
 
 test('should reset counter to updated initial value', () => {
-  const { result, rerender } = renderHook(
-    ({ initialValue }) => useCounterWithProps(initialValue),
-    {
-      initialProps: {
-        initialValue: 0,
-      },
+  const { result, rerender } = renderHook(({ initialValue }) => useCounterWithProps(initialValue), {
+    initialProps: {
+      initialValue: 0,
     },
-  );
+  });
 
   rerender({ initialValue: 10 });
 
@@ -335,13 +325,7 @@ import React, { useState, useContext, useCallback } from 'react';
 
 const CounterContext = React.createContext(1);
 
-export const CounterProvider = ({
-  step,
-  children,
-}: {
-  children?: React.ReactNode;
-  step: number;
-}) => (
+export const CounterProvider = ({ step, children }: { children?: React.ReactNode; step: number }) => (
   <CounterContext.Provider value={step}>{children}</CounterContext.Provider>
 );
 
@@ -350,7 +334,7 @@ export function useContextCounter(initialValue = 0) {
 
   const step = useContext(CounterContext);
 
-  const increment = useCallback(() => setCount((x) => x + step), [step]);
+  const increment = useCallback(() => setCount(x => x + step), [step]);
 
   const reset = useCallback(() => setCount(initialValue), [initialValue]);
 
@@ -377,13 +361,9 @@ test('should use custom step when incrementing', () => {
 });
 
 test('should use custom step when incrementing', () => {
-  const wrapper = ({
-    step,
-    children,
-  }: {
-    children?: React.ReactNode;
-    step: number;
-  }) => <CounterProvider step={step}>{children}</CounterProvider>;
+  const wrapper = ({ step, children }: { children?: React.ReactNode; step: number }) => (
+    <CounterProvider step={step}>{children}</CounterProvider>
+  );
 
   const { result, rerender } = renderHook(() => useContextCounter(), {
     wrapper,
@@ -415,12 +395,9 @@ import { useState, useCallback } from 'react';
 export default function useAsyncCounter(initialValue = 0) {
   const [count, setCount] = useState(initialValue);
 
-  const increment = useCallback(() => setCount((x) => x + 1), []);
+  const increment = useCallback(() => setCount(x => x + 1), []);
 
-  const incrementAsync = useCallback(
-    () => setTimeout(increment, 200),
-    [increment],
-  );
+  const incrementAsync = useCallback(() => setTimeout(increment, 200), [increment]);
 
   return {
     count,
@@ -482,7 +459,7 @@ export type PolicyDetailDTO = Pick<
 
 ```ts | pure
 const [detail, setDetail] = useState<defs.gazelle.CompanyFinancialIndicatorDTO>(
-  API.gazelle.companyFinancialIndicator.getById.init,
+  API.gazelle.companyFinancialIndicator.getById.init
 );
 ```
 
@@ -491,8 +468,7 @@ const [detail, setDetail] = useState<defs.gazelle.CompanyFinancialIndicatorDTO>(
 ```ts | pure
 // GET 类型的请求走useSWR
 const { path, fetch } = API.gazelle.companyFinancialIndicator.getById;
-const { data, error, isValidating } =
-  useSWR<defs.gazelle.CompanyFinancialIndicatorDTO>(path, fetch);
+const { data, error, isValidating } = useSWR<defs.gazelle.CompanyFinancialIndicatorDTO>(path, fetch);
 
 // 其他类型的请求直接调用胶水代码
 const handleSubmit = async () => {

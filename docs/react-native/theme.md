@@ -204,9 +204,7 @@ import { lightTheme, darkTheme } from './theme';
 export default () => {
   // 其他代码
 
-  return (
-    <ThemeProvider theme={lightTheme}>{/** 其他Provider */}</ThemeProvider>
-  );
+  return <ThemeProvider theme={lightTheme}>{/** 其他Provider */}</ThemeProvider>;
 };
 ```
 

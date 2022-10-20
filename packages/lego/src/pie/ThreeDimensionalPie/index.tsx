@@ -1,34 +1,20 @@
-import React, {
-  CSSProperties,
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
 import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts/core';
 import 'echarts-gl';
 import { PieChart, PieSeriesOption } from 'echarts/charts';
-import {
-  TooltipComponent,
-  TooltipComponentOption,
-  GraphicComponent,
-  GraphicComponentOption,
-} from 'echarts/components';
+import { GraphicComponent, GraphicComponentOption, TooltipComponent, TooltipComponentOption } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { merge } from 'lodash-es';
+import React, { CSSProperties, forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 
-import useTheme from '../../hooks/useTheme';
-import useBasePieConfig from '../../hooks/useBasePieConfig';
 import useBaseChartConfig from '../../hooks/useBaseChartConfig';
+import useBasePieConfig from '../../hooks/useBasePieConfig';
 import { useRAF } from '../../hooks/useRAF';
+import useTheme from '../../hooks/useTheme';
 
-import useStyle from '../../hooks/useStyle';
 import useEchartsRef from '../../hooks/useEchartsRef';
+import useStyle from '../../hooks/useStyle';
 
-type ECOption = echarts.ComposeOption<
-  PieSeriesOption | TooltipComponentOption | GraphicComponentOption
->;
+type ECOption = echarts.ComposeOption<PieSeriesOption | TooltipComponentOption | GraphicComponentOption>;
 
 echarts.use([TooltipComponent, PieChart, GraphicComponent]);
 
@@ -62,7 +48,7 @@ export default forwardRef<ReactEcharts, ThreeDimensionalPieProps>(
       onEvents,
       coefficient = 1,
     },
-    ref,
+    ref
   ) => {
     const { ref: echartsRef, getInstance } = useEchartsRef(ref);
     const { raf } = useRAF();
@@ -71,8 +57,7 @@ export default forwardRef<ReactEcharts, ThreeDimensionalPieProps>(
     const baseChartConfig = useBaseChartConfig();
     const { style: modifiedStyle } = useStyle(style);
     const colors = useMemo(() => {
-      if (pieColors?.length > 0 && pieColors.length >= seriesData?.length)
-        return pieColors;
+      if (pieColors?.length > 0 && pieColors.length >= seriesData?.length) return pieColors;
       return [
         theme.colors.primary50[0],
         theme.colors.primary100[0],
@@ -99,13 +84,7 @@ export default forwardRef<ReactEcharts, ThreeDimensionalPieProps>(
 
     // 生成数据
     const generateData = useCallback(
-      (props: {
-        option: any;
-        hoveredIndex?: any;
-        seriesIndex?: string;
-        kCondition?: number;
-        upCondition?: number;
-      }) => {
+      (props: { option: any; hoveredIndex?: any; seriesIndex?: string; kCondition?: number; upCondition?: number }) => {
         const { option, hoveredIndex, kCondition = 1, upCondition = 1 } = props;
         if (!option?.series) {
           return;
@@ -125,23 +104,19 @@ export default forwardRef<ReactEcharts, ThreeDimensionalPieProps>(
           isSelected,
           isHovered,
           k * kCondition,
-          generate3DHeight(
-            isFlat,
-            option.series[hoveredIndex].pieData?.value,
-            upCondition * coefficient,
-          ),
+          generate3DHeight(isFlat, option.series[hoveredIndex].pieData?.value, upCondition * coefficient)
         );
 
         if (option?.series[hoveredIndex]?.pieStatus) {
           option.series[hoveredIndex].pieStatus.hovered = isHovered;
         }
       },
-      [coefficient, isFlat],
+      [coefficient, isFlat]
     );
 
     const option = useMemo(() => {
       const total = seriesData
-        .map((item) => +item.value)
+        .map(item => +item.value)
         .reduce((value: number, total: number) => {
           return value + total;
         }, 0);
@@ -161,20 +136,10 @@ export default forwardRef<ReactEcharts, ThreeDimensionalPieProps>(
         newData,
         0.7,
         isFlat,
-        coefficient,
+        coefficient
       );
       return option as ECOption;
-    }, [
-      seriesData,
-      barConfig,
-      pieConfig,
-      theme,
-      basePieConfig,
-      baseChartConfig,
-      isFlat,
-      colors,
-      coefficient,
-    ]);
+    }, [seriesData, barConfig, pieConfig, theme, basePieConfig, baseChartConfig, isFlat, colors, coefficient]);
 
     const updateData = useCallback(() => {
       const seriesIndex = index.toString();
@@ -205,15 +170,7 @@ export default forwardRef<ReactEcharts, ThreeDimensionalPieProps>(
           myChart?.setOption(option);
         }
       }
-    }, [
-      echartsRef,
-      generateData,
-      hoveredIndex,
-      index,
-      getInstance,
-      option,
-      seriesData,
-    ]);
+    }, [echartsRef, generateData, hoveredIndex, index, getInstance, option, seriesData]);
 
     useEffect(() => {
       if (!autoLoop) {
@@ -249,10 +206,7 @@ export default forwardRef<ReactEcharts, ThreeDimensionalPieProps>(
               generateData({ option, hoveredIndex });
             }
             // 如果触发 mouseover 的扇形不是透明圆环，将其高亮（对 option 更新）
-            if (
-              params.seriesName !== 'mouseoutSeries' &&
-              params.seriesName !== 'pie2d'
-            ) {
+            if (params.seriesName !== 'mouseoutSeries' && params.seriesName !== 'pie2d') {
               generateData({
                 option,
                 hoveredIndex: seriesIndex,
@@ -288,7 +242,7 @@ export default forwardRef<ReactEcharts, ThreeDimensionalPieProps>(
         />
       </div>
     );
-  },
+  }
 );
 
 function getParametricEquation(
@@ -297,7 +251,7 @@ function getParametricEquation(
   isSelected: boolean,
   isHovered: boolean,
   k: number,
-  h: number,
+  h: number
 ) {
   // 计算
   const midRatio = (startRatio + endRatio) / 2;
@@ -335,28 +289,20 @@ function getParametricEquation(
     },
     x: function (u: number, v: number) {
       if (u < startRadian) {
-        return (
-          offsetX + Math.cos(startRadian) * (1 + Math.cos(v) * k) * hoverRate
-        );
+        return offsetX + Math.cos(startRadian) * (1 + Math.cos(v) * k) * hoverRate;
       }
       if (u > endRadian) {
-        return (
-          offsetX + Math.cos(endRadian) * (1 + Math.cos(v) * k) * hoverRate
-        );
+        return offsetX + Math.cos(endRadian) * (1 + Math.cos(v) * k) * hoverRate;
       }
       return offsetX + Math.cos(u) * (1 + Math.cos(v) * k) * hoverRate;
     },
 
     y: function (u: number, v: number) {
       if (u < startRadian) {
-        return (
-          offsetY + Math.sin(startRadian) * (1 + Math.cos(v) * k) * hoverRate
-        );
+        return offsetY + Math.sin(startRadian) * (1 + Math.cos(v) * k) * hoverRate;
       }
       if (u > endRadian) {
-        return (
-          offsetY + Math.sin(endRadian) * (1 + Math.cos(v) * k) * hoverRate
-        );
+        return offsetY + Math.sin(endRadian) * (1 + Math.cos(v) * k) * hoverRate;
       }
       return offsetY + Math.sin(u) * (1 + Math.cos(v) * k) * hoverRate;
     },
@@ -383,7 +329,7 @@ function getPie3D(
   pieData: string | any[],
   internalDiameterRatio: number,
   isFlat = true,
-  coefficient = 1,
+  coefficient = 1
 ) {
   const series: any[] = [];
   let sumValue = 0;
@@ -391,17 +337,14 @@ function getPie3D(
   let endValue = 0;
   const legendData: any[] = [];
   const k =
-    typeof internalDiameterRatio !== 'undefined'
-      ? (1 - internalDiameterRatio) / (1 + internalDiameterRatio)
-      : 1 / 3;
+    typeof internalDiameterRatio !== 'undefined' ? (1 - internalDiameterRatio) / (1 + internalDiameterRatio) : 1 / 3;
 
   // 为每一个饼图数据，生成一个 series-surface 配置
   for (let i = 0; i < pieData.length; i++) {
     sumValue += pieData[i].value;
 
     const seriesItem = {
-      name:
-        typeof pieData[i].name === 'undefined' ? `series${i}` : pieData[i].name,
+      name: typeof pieData[i].name === 'undefined' ? `series${i}` : pieData[i].name,
       type: 'surface',
       parametric: true,
       wireframe: {
@@ -422,12 +365,8 @@ function getPie3D(
     if (typeof pieData[i].itemStyle != 'undefined') {
       const itemStyle = { color: '', opacity: 1 };
 
-      typeof pieData[i].itemStyle.color != 'undefined'
-        ? (itemStyle.color = pieData[i].itemStyle.color)
-        : null;
-      typeof pieData[i].itemStyle.opacity != 'undefined'
-        ? (itemStyle.opacity = pieData[i].itemStyle.opacity)
-        : null;
+      typeof pieData[i].itemStyle.color != 'undefined' ? (itemStyle.color = pieData[i].itemStyle.color) : null;
+      typeof pieData[i].itemStyle.opacity != 'undefined' ? (itemStyle.opacity = pieData[i].itemStyle.opacity) : null;
 
       seriesItem.itemStyle = itemStyle;
     }
@@ -448,7 +387,7 @@ function getPie3D(
       false,
       false,
       k,
-      generate3DHeight(isFlat, series[i].pieData?.value, coefficient),
+      generate3DHeight(isFlat, series[i].pieData?.value, coefficient)
     );
 
     startValue = endValue;
@@ -556,10 +495,6 @@ function getPie3D(
 }
 
 // 计算3d扇区高度
-function generate3DHeight(
-  isFlat: boolean,
-  value = 30,
-  coefficient = 1,
-): number {
+function generate3DHeight(isFlat: boolean, value = 30, coefficient = 1): number {
   return (isFlat ? 30 : value) * coefficient;
 }

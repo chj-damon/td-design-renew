@@ -1,7 +1,7 @@
-import * as echarts from 'echarts/core';
-import { INITIAL_ADCODE } from './constant';
-import chinaJson from '../assets/china';
 import AMapLoader from '@amap/amap-jsapi-loader';
+import * as echarts from 'echarts/core';
+import chinaJson from '../assets/china';
+import { INITIAL_ADCODE } from './constant';
 
 interface AMapDistrict {
   adcode: string;
@@ -22,7 +22,7 @@ export function formatAdcode(districts: AMapDistrict[], adcode: string) {
   const pcd: DistrictInfo[] = [];
 
   function _format(districts: AMapDistrict[], adcode: string) {
-    districts.forEach((d) => {
+    districts.forEach(d => {
       pcd.push({
         parent: adcode,
         adcode: d.adcode,
@@ -43,11 +43,7 @@ export function formatAdcode(districts: AMapDistrict[], adcode: string) {
 // 缓存地图数据
 const memoizedMaps = {};
 
-export function register(
-  mapName: string,
-  adcode: string,
-  callback: () => void,
-) {
+export function register(mapName: string, adcode: string, callback: () => void) {
   if (adcode === INITIAL_ADCODE) {
     echarts.registerMap('china', chinaJson as any);
     new Array(4).fill('').forEach((_, i) => {
@@ -78,33 +74,27 @@ export function register(
         },
       }).then(() => {
         // @ts-ignore
-        window.AMapUI.loadUI(
-          ['geo/DistrictExplorer'],
-          (DistrictExplorer: any) => {
-            const districtExplorer = new DistrictExplorer();
-            districtExplorer.loadAreaNode(
-              adcode,
-              (error: Error, areaNode: any) => {
-                if (error) {
-                  console.error(error);
-                  return;
-                }
-                const features = areaNode.getSubFeatures(); // 获取Features
-                const geoJson = {
-                  type: 'FeatureCollection',
-                  features,
-                } as any;
+        window.AMapUI.loadUI(['geo/DistrictExplorer'], (DistrictExplorer: any) => {
+          const districtExplorer = new DistrictExplorer();
+          districtExplorer.loadAreaNode(adcode, (error: Error, areaNode: any) => {
+            if (error) {
+              console.error(error);
+              return;
+            }
+            const features = areaNode.getSubFeatures(); // 获取Features
+            const geoJson = {
+              type: 'FeatureCollection',
+              features,
+            } as any;
 
-                memoizedMaps[mapName] = geoJson;
-                echarts.registerMap(mapName, geoJson);
-                new Array(4).fill('').forEach((_, i) => {
-                  echarts.registerMap(`${mapName}${i}`, geoJson);
-                });
-                callback();
-              },
-            );
-          },
-        );
+            memoizedMaps[mapName] = geoJson;
+            echarts.registerMap(mapName, geoJson);
+            new Array(4).fill('').forEach((_, i) => {
+              echarts.registerMap(`${mapName}${i}`, geoJson);
+            });
+            callback();
+          });
+        });
       });
     }
   }

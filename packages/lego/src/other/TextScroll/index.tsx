@@ -35,9 +35,7 @@ export default ({
             transform: translate(0, 0);
           }
           100% {
-            transform: translate(0, -${
-              (node?.clientHeight ?? 0) - (extraNode?.clientHeight ?? 0)
-            }px);
+            transform: translate(0, -${(node?.clientHeight ?? 0) - (extraNode?.clientHeight ?? 0)}px);
           }
         }`;
       const style = document.createElement('style');

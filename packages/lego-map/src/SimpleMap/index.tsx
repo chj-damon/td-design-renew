@@ -1,8 +1,8 @@
-import React, { CSSProperties, forwardRef, useEffect, useState } from 'react';
-import * as echarts from 'echarts/core';
-import ReactEcharts from 'echarts-for-react';
 import type { EChartsOption, SeriesOption } from 'echarts';
+import ReactEcharts from 'echarts-for-react';
+import * as echarts from 'echarts/core';
 import { isArray, merge } from 'lodash-es';
+import React, { CSSProperties, forwardRef, useEffect, useState } from 'react';
 
 import chinaMapJson from '../assets/china';
 import { generateMapLayer } from '../utils/baseSeries';
@@ -42,7 +42,7 @@ const SimpleMap = forwardRef<ReactEcharts, SimpleMapProps>(
       onEvents,
       config = {},
     },
-    ref,
+    ref
   ) => {
     const [loading, setLoading] = useState(true);
     const [option, setOption] = useState<any>(config);
@@ -84,21 +84,13 @@ const SimpleMap = forwardRef<ReactEcharts, SimpleMapProps>(
               ...(configSeries as SeriesOption[]),
             ],
           },
-          restConfig,
-        ),
+          restConfig
+        )
       );
 
       setLoading(false);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [
-      JSON.stringify(config),
-      labelSize,
-      mapJson,
-      mapName,
-      showLabel,
-      silent,
-      top,
-    ]);
+    }, [JSON.stringify(config), labelSize, mapJson, mapName, showLabel, silent, top]);
 
     return (
       <ReactEcharts
@@ -110,7 +102,7 @@ const SimpleMap = forwardRef<ReactEcharts, SimpleMapProps>(
         style={style}
       />
     );
-  },
+  }
 );
 
 export default SimpleMap;

@@ -5,7 +5,7 @@ export default function createStackSeries(
   baseBarConfig: any,
   seriesData: { name: string; data: (number | string)[] }[],
   totalData: number[],
-  unit?: string,
+  unit?: string
 ) {
   return [
     // 底部垫片
@@ -33,7 +33,7 @@ export default function createStackSeries(
       itemStyle: {
         color: createLinearGradient(chartColor[0]),
       },
-      data: seriesData[0].data?.map((i) => ({ value: i, unit })),
+      data: seriesData[0].data?.map(i => ({ value: i, unit })),
       emphasis: {
         itemStyle: {
           shadowBlur: 20,
@@ -46,7 +46,7 @@ export default function createStackSeries(
       z: 3,
       type: 'pictorialBar',
       symbolPosition: 'end',
-      data: seriesData[0].data?.map((i) => ({ value: i, unit })),
+      data: seriesData[0].data?.map(i => ({ value: i, unit })),
       symbol: 'circle',
       symbolOffset: [0, '-50%'],
       symbolSize: [26, 10],
@@ -66,7 +66,7 @@ export default function createStackSeries(
       itemStyle: {
         color: createLinearGradient(chartColor[1]),
       },
-      data: seriesData[1].data?.map((i) => ({ value: i, unit })),
+      data: seriesData[1].data?.map(i => ({ value: i, unit })),
       emphasis: {
         itemStyle: {
           shadowBlur: 20,

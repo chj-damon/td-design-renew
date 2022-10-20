@@ -115,7 +115,7 @@ a.flat(); // [1,2,3]
 // 循环
 let arr1 = [1, 2, [3], [1, 2, 3, [4, [2, 3, 4]]]];
 function flatten(arr) {
-  while (arr.some((item) => Array.isArray(item))) {
+  while (arr.some(item => Array.isArray(item))) {
     arr = [].concat(...arr);
   }
   return arr;

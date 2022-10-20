@@ -1,5 +1,5 @@
-import React, { FC, CSSProperties, ReactElement } from 'react';
 import classNames from 'classnames';
+import React, { CSSProperties, FC, ReactElement } from 'react';
 import './index.less';
 
 const prefixName = 'td-lego-float-ball';
@@ -21,29 +21,19 @@ export interface FloatBallProps {
   style?: CSSProperties;
 }
 
-const FloatBall: FC<FloatBallProps> = ({
-  dataSource = [],
-  maxCount,
-  className,
-  style,
-}) => {
+const FloatBall: FC<FloatBallProps> = ({ dataSource = [], maxCount, className, style }) => {
   const moreThanMax = (maxCount ?? dataSource.length) >= MAX_COUNT;
   // 如果数据个数超过4个，只显示4个
   const modifiedCount = moreThanMax ? MAX_COUNT : dataSource.length;
   // 限制最大显示个数
-  const limitedCount = maxCount
-    ? Math.min(modifiedCount, maxCount)
-    : modifiedCount;
+  const limitedCount = maxCount ? Math.min(modifiedCount, maxCount) : modifiedCount;
 
   const renderBall = (item: LabeledValue, idx: number) => {
     const { label, value } = item;
     return (
       <div
         key={`${label}${idx}`}
-        className={classNames(
-          `${prefixName}-ball-container`,
-          `${prefixName}-${colorNamesArr[idx]}`,
-        )}
+        className={classNames(`${prefixName}-ball-container`, `${prefixName}-${colorNamesArr[idx]}`)}
       >
         {React.isValidElement(item.element) ? (
           item.element
@@ -59,11 +49,7 @@ const FloatBall: FC<FloatBallProps> = ({
 
   return (
     <div
-      className={classNames(
-        `${prefixName}-container`,
-        `${prefixName}-${moreThanMax ? 'more' : 'normal'}`,
-        className,
-      )}
+      className={classNames(`${prefixName}-container`, `${prefixName}-${moreThanMax ? 'more' : 'normal'}`, className)}
       style={style}
     >
       {dataSource.slice(0, limitedCount).map(renderBall)}

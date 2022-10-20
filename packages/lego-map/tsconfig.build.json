@@ -12,15 +12,5 @@
     "strictNullChecks": true,
     "baseUrl": "."
   },
-  "exclude": [
-    "node_modules",
-    "lib",
-    "es",
-    "dist",
-    "**/index.test.ts",
-    "**/demo",
-    "coverage",
-    "**/*.js",
-    "example"
-  ]
+  "exclude": ["node_modules", "lib", "es", "dist", "**/index.test.ts", "**/demo", "coverage", "**/*.js", "example"]
 }

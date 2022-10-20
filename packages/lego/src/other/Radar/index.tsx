@@ -1,22 +1,16 @@
-import React, { CSSProperties, forwardRef, useMemo } from 'react';
-import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts/core';
-import { RadarSeriesOption } from 'echarts/charts';
-import {
-  TooltipComponent,
-  TooltipComponentOption,
-  RadarComponent,
-} from 'echarts/components';
 import Color from 'color';
+import ReactEcharts from 'echarts-for-react';
+import { RadarSeriesOption } from 'echarts/charts';
+import { RadarComponent, TooltipComponent, TooltipComponentOption } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { merge } from 'lodash-es';
+import React, { CSSProperties, forwardRef, useMemo } from 'react';
 
-import createLinearGradient from '../../utils/createLinearGradient';
-import useTheme from '../../hooks/useTheme';
 import useBaseChartConfig from '../../hooks/useBaseChartConfig';
+import useTheme from '../../hooks/useTheme';
+import createLinearGradient from '../../utils/createLinearGradient';
 
-type ECOption = echarts.ComposeOption<
-  RadarSeriesOption | TooltipComponentOption
->;
+type ECOption = echarts.ComposeOption<RadarSeriesOption | TooltipComponentOption>;
 
 echarts.use([TooltipComponent, RadarComponent]);
 
@@ -49,7 +43,7 @@ export default forwardRef<ReactEcharts, RadarProps>(
       radarColors = [],
       onEvents,
     },
-    ref,
+    ref
   ) => {
     const theme = useTheme();
     const baseChartConfig = useBaseChartConfig(inModal);
@@ -57,27 +51,16 @@ export default forwardRef<ReactEcharts, RadarProps>(
     // 雷达图的底色（带层次感）
     const colors = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6]
       .reverse()
-      .map((num) => Color(theme.colors.assist200).alpha(num).string());
+      .map(num => Color(theme.colors.assist200).alpha(num).string());
 
     const baseColors = useMemo(() => {
-      if (
-        radarColors?.length > 0 &&
-        radarColors?.length >= seriesData?.length
-      ) {
+      if (radarColors?.length > 0 && radarColors?.length >= seriesData?.length) {
         return radarColors;
       }
       return [theme.colors.primary50, theme.colors.primary300];
-    }, [
-      radarColors,
-      seriesData?.length,
-      theme.colors.primary50,
-      theme.colors.primary300,
-    ]);
+    }, [radarColors, seriesData?.length, theme.colors.primary50, theme.colors.primary300]);
 
-    const gradientColors = useMemo(
-      () => baseColors.map((item) => createLinearGradient(item)),
-      [baseColors],
-    );
+    const gradientColors = useMemo(() => baseColors.map(item => createLinearGradient(item)), [baseColors]);
 
     const option = useMemo(
       () =>
@@ -86,7 +69,7 @@ export default forwardRef<ReactEcharts, RadarProps>(
             legend: {
               ...baseChartConfig.legend,
               icon: 'circle',
-              data: seriesData.map((item) => item.name),
+              data: seriesData.map(item => item.name),
             },
             tooltip: {
               show: true,
@@ -100,11 +83,9 @@ export default forwardRef<ReactEcharts, RadarProps>(
                   (value: number, index: number) => `
                     <div>
                       ${params.marker}
-                      ${indicatorData[index]?.name}： ${value} ${
-                    indicatorData[index]?.unit ?? ''
-                  }
+                      ${indicatorData[index]?.name}： ${value} ${indicatorData[index]?.unit ?? ''}
                     </div>
-                  `,
+                  `
                 );
                 return `
                   <div style="
@@ -128,9 +109,7 @@ export default forwardRef<ReactEcharts, RadarProps>(
               nameGap: 5,
               name: {
                 formatter: (_: string, indicator: IndicatorItem) => {
-                  return `{a|${indicator.name ?? ''}}\n{a|${indicator.max}${
-                    indicator.unit ?? ''
-                  }}`;
+                  return `{a|${indicator.name ?? ''}}\n{a|${indicator.max}${indicator.unit ?? ''}}`;
                 },
                 rich: {
                   a: {
@@ -189,7 +168,7 @@ export default forwardRef<ReactEcharts, RadarProps>(
               },
             })),
           },
-          config as ECOption,
+          config as ECOption
         ),
       [
         gradientColors,
@@ -203,17 +182,9 @@ export default forwardRef<ReactEcharts, RadarProps>(
         colors,
         seriesData,
         config,
-      ],
+      ]
     );
 
-    return (
-      <ReactEcharts
-        ref={ref}
-        style={style}
-        echarts={echarts}
-        option={option}
-        onEvents={onEvents}
-      />
-    );
-  },
+    return <ReactEcharts ref={ref} style={style} echarts={echarts} option={option} onEvents={onEvents} />;
+  }
 );

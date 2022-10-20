@@ -8,7 +8,7 @@ export default function useStyle(style: CSSProperties = {}) {
       height: '100%',
       ...style,
     }),
-    [style],
+    [style]
   );
   return { style: modifiedStyle };
 }

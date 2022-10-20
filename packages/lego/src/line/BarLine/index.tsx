@@ -1,59 +1,44 @@
-import React, {
-  CSSProperties,
-  forwardRef,
-  useMemo,
-  useCallback,
-  ForwardedRef,
-} from 'react';
-import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts/core';
 import Color from 'color';
+import ReactEcharts from 'echarts-for-react';
 import {
-  LineChart,
-  LineSeriesOption,
   CustomChart,
   // 系列类型的定义后缀都为 SeriesOption
   CustomSeriesOption,
+  LineChart,
+  LineSeriesOption,
 } from 'echarts/charts';
 import {
-  TooltipComponent,
-  TooltipComponentOption,
   // 组件类型的定义后缀都为 ComponentOption
   GridComponent,
   GridComponentOption,
+  TooltipComponent,
+  TooltipComponentOption,
 } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { YAXisOption } from 'echarts/types/dist/shared';
 import { merge } from 'lodash-es';
+import React, { CSSProperties, ForwardedRef, forwardRef, useCallback, useMemo } from 'react';
 
-import useTheme from '../../hooks/useTheme';
+import useBaseBarConfig from '../../hooks/useBaseBarConfig';
 import useBaseChartConfig from '../../hooks/useBaseChartConfig';
 import useBaseLineConfig from '../../hooks/useBaseLineConfig';
 import useChartLoop from '../../hooks/useChartLoop';
+import useTheme from '../../hooks/useTheme';
 import createCuboidSeries from '../../utils/createCuboidSeries';
-import createLinearGradient from '../../utils/createLinearGradient';
 import createCylinderSeries from '../../utils/createCylinderSeries';
 import createCylinderShadowSeries from '../../utils/createCylinderShadowSeries';
-import useBaseBarConfig from '../../hooks/useBaseBarConfig';
+import createLinearGradient from '../../utils/createLinearGradient';
 import createSliceSeries from '../../utils/createSliceSeries';
 import createStackSeries from '../../utils/createStackSeries';
 
 // 通过 ComposeOption 来组合出一个只有必须组件和图表的 Option 类型
 type ECOption = echarts.ComposeOption<
-  | LineSeriesOption
-  | CustomSeriesOption
-  | TooltipComponentOption
-  | GridComponentOption
+  LineSeriesOption | CustomSeriesOption | TooltipComponentOption | GridComponentOption
 >;
 
 // 注册必须的组件
-echarts.use([
-  TooltipComponent,
-  GridComponent,
-  LineChart,
-  CustomChart,
-  CanvasRenderer,
-]);
+echarts.use([TooltipComponent, GridComponent, LineChart, CustomChart, CanvasRenderer]);
 
 type CuboidBarParams = {
   barType: 'cuboidBar';
@@ -80,17 +65,9 @@ type SliceBarParams = {
   barData: BarSeriesData;
 };
 
-type Params =
-  | CuboidBarParams
-  | CylinderBarParams
-  | CylinderShadowBarParams
-  | StackBarParams
-  | SliceBarParams;
+type Params = CuboidBarParams | CylinderBarParams | CylinderShadowBarParams | StackBarParams | SliceBarParams;
 
-type GetValueType<TType extends Params['barType']> = Extract<
-  Params,
-  { barType: TType }
->['barData'];
+type GetValueType<TType extends Params['barType']> = Extract<Params, { barType: TType }>['barData'];
 
 export interface BarLineProps<TType extends Params['barType']> {
   xAxisData: any[];
@@ -142,7 +119,7 @@ function BarLine<TType extends Params['barType']>(
     showYAxisLine = true,
     onEvents,
   }: BarLineProps<TType>,
-  ref: ForwardedRef<ReactEcharts>,
+  ref: ForwardedRef<ReactEcharts>
 ) {
   const theme = useTheme();
   const baseBarConfig = useBaseBarConfig(inModal);
@@ -154,7 +131,7 @@ function BarLine<TType extends Params['barType']>(
     const baseLineSeries = {
       name: lineData.name,
       yAxisIndex: 1,
-      data: lineData.data.map((item) => ({ value: item, unit: lineUnit })),
+      data: lineData.data.map(item => ({ value: item, unit: lineUnit })),
       ...baseLineConfig,
       smooth,
       emphasis: {
@@ -190,14 +167,8 @@ function BarLine<TType extends Params['barType']>(
       case 'cuboidBar':
       default:
         return {
-          color: [
-            createLinearGradient(theme.colors.primary300),
-            createLinearGradient(theme.colors.primary200),
-          ],
-          series: [
-            createCuboidSeries(theme, barData as BarSeriesData, barUnit),
-            lineSeries,
-          ],
+          color: [createLinearGradient(theme.colors.primary300), createLinearGradient(theme.colors.primary200)],
+          series: [createCuboidSeries(theme, barData as BarSeriesData, barUnit), lineSeries],
         };
 
       // 分组圆柱图
@@ -211,9 +182,7 @@ function BarLine<TType extends Params['barType']>(
           series: [
             ...(barData as BarSeriesData[])
               .slice(0, 2)
-              .map((item) =>
-                createCylinderSeries(theme, { ...item, unit: barUnit }, 0),
-              ),
+              .map(item => createCylinderSeries(theme, { ...item, unit: barUnit }, 0)),
             lineSeries,
           ],
         };
@@ -221,19 +190,8 @@ function BarLine<TType extends Params['barType']>(
       // 带阴影圆柱图
       case 'cylinderShadowBar':
         return {
-          color: [
-            createLinearGradient(theme.colors.primary50),
-            createLinearGradient(theme.colors.primary200),
-          ],
-          series: [
-            ...createCylinderShadowSeries(
-              theme,
-              baseBarConfig,
-              barData as BarSeriesData,
-              max ?? 0,
-            ),
-            lineSeries,
-          ],
+          color: [createLinearGradient(theme.colors.primary50), createLinearGradient(theme.colors.primary200)],
+          series: [...createCylinderShadowSeries(theme, baseBarConfig, barData as BarSeriesData, max ?? 0), lineSeries],
           tooltipFormatter: {
             formatter: function (params: any) {
               const str = `
@@ -241,29 +199,25 @@ function BarLine<TType extends Params['barType']>(
                     <div style="
                       width: 7px;
                       height: 7px;
-                      background: linear-gradient(180deg, ${
-                        params[0]?.color
-                      } 0%, ${params[0]?.color} 100%);
+                      background: linear-gradient(180deg, ${params[0]?.color} 0%, ${params[0]?.color} 100%);
                       margin-right: 4px;
                       border-radius: 7px;
                     "></div>
-                    ${params[0]?.seriesName}：${
-                params[0]?.data?.value || params[0]?.data
-              } ${barUnit ?? params[0]?.data?.unit ?? ''}
+                    ${params[0]?.seriesName}：${params[0]?.data?.value || params[0]?.data} ${
+                barUnit ?? params[0]?.data?.unit ?? ''
+              }
                   </div>
                   <div style="display: flex; align-items: center;">
                   <div style="
                     width: 7px;
                     height: 7px;
-                    background: linear-gradient(180deg, ${
-                      params?.[5]?.color?.colorStops?.[0]?.color
-                    } 0%, ${params?.[5]?.color?.colorStops?.[1]?.color} 100%);
+                    background: linear-gradient(180deg, ${params?.[5]?.color?.colorStops?.[0]?.color} 0%, ${
+                params?.[5]?.color?.colorStops?.[1]?.color
+              } 100%);
                     margin-right: 4px;
                     border-radius: 7px;
                   "></div>
-                  ${params?.[5]?.seriesName}：${params?.[5]?.value} ${
-                lineUnit ?? params?.[5]?.data?.unit ?? ''
-              }
+                  ${params?.[5]?.seriesName}：${params?.[5]?.value} ${lineUnit ?? params?.[5]?.data?.unit ?? ''}
                 </div>
                 `;
 
@@ -289,10 +243,7 @@ function BarLine<TType extends Params['barType']>(
       case 'sliceBar':
         return {
           color: [createLinearGradient(theme.colors.primary200)],
-          series: [
-            ...createSliceSeries(theme, barData as BarSeriesData, max ?? 0),
-            lineSeries,
-          ],
+          series: [...createSliceSeries(theme, barData as BarSeriesData, max ?? 0), lineSeries],
           tooltipFormatter: {
             formatter: function (params: any) {
               const str = `
@@ -300,29 +251,27 @@ function BarLine<TType extends Params['barType']>(
                     <div style="
                       width: 7px;
                       height: 7px;
-                      background: linear-gradient(180deg, ${
-                        params[0]?.color?.colorStops?.[0]?.color
-                      } 0%, ${params[0]?.color?.colorStops?.[1]?.color} 100%);
+                      background: linear-gradient(180deg, ${params[0]?.color?.colorStops?.[0]?.color} 0%, ${
+                params[0]?.color?.colorStops?.[1]?.color
+              } 100%);
                       margin-right: 4px;
                       border-radius: 7px;
                     "></div>
-                    ${params[0]?.seriesName}：${
-                params[0]?.data?.value || params[0]?.data
-              } ${barUnit ?? params[0]?.data?.unit ?? ''}
+                    ${params[0]?.seriesName}：${params[0]?.data?.value || params[0]?.data} ${
+                barUnit ?? params[0]?.data?.unit ?? ''
+              }
                   </div>
                   <div style="display: flex; align-items: center;">
                   <div style="
                     width: 7px;
                     height: 7px;
-                    background: linear-gradient(180deg, ${
-                      params?.[2]?.color?.colorStops?.[0]?.color
-                    } 0%, ${params?.[2]?.color?.colorStops?.[1]?.color} 100%);
+                    background: linear-gradient(180deg, ${params?.[2]?.color?.colorStops?.[0]?.color} 0%, ${
+                params?.[2]?.color?.colorStops?.[1]?.color
+              } 100%);
                     margin-right: 4px;
                     border-radius: 7px;
                   "></div>
-                  ${params?.[2]?.seriesName}：${params?.[2]?.value} ${
-                lineUnit ?? params?.[2]?.data?.unit ?? ''
-              }
+                  ${params?.[2]?.seriesName}：${params?.[2]?.value} ${lineUnit ?? params?.[2]?.data?.unit ?? ''}
                 </div>
                 `;
 
@@ -359,24 +308,13 @@ function BarLine<TType extends Params['barType']>(
               baseBarConfig,
               barData as any,
               totalData,
-              barUnit,
+              barUnit
             ),
             lineSeries,
           ],
         };
     }
-  }, [
-    barType,
-    theme,
-    barData,
-    barUnit,
-    lineSeries,
-    baseBarConfig,
-    max,
-    lineUnit,
-    inModal,
-    xAxisData.length,
-  ]);
+  }, [barType, theme, barData, barUnit, lineSeries, baseBarConfig, max, lineUnit, inModal, xAxisData.length]);
 
   const option = useMemo(() => {
     const { series, color, tooltipFormatter } = createOption();
@@ -435,7 +373,7 @@ function BarLine<TType extends Params['barType']>(
         ],
         series,
       },
-      config,
+      config
     ) as ECOption;
   }, [
     createOption,
@@ -465,9 +403,6 @@ function BarLine<TType extends Params['barType']>(
 export default forwardRef(BarLine);
 
 const getAreaColorsByIndex = (colors: [string, string]) => {
-  const _color = [
-    Color(colors[1]).alpha(0).string(),
-    Color(colors[0]).alpha(0.4).string(),
-  ];
+  const _color = [Color(colors[1]).alpha(0).string(), Color(colors[0]).alpha(0.4).string()];
   return createLinearGradient(_color);
 };

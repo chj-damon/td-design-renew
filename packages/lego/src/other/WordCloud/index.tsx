@@ -1,8 +1,8 @@
-import React, { forwardRef, useMemo } from 'react';
 import ReactEcharts from 'echarts-for-react';
+import 'echarts-wordcloud';
 import * as echarts from 'echarts/core';
 import { merge } from 'lodash-es';
-import 'echarts-wordcloud';
+import React, { forwardRef, useMemo } from 'react';
 
 export interface WordCloudProps {
   data: { name: string; value: number }[];
@@ -56,18 +56,10 @@ export default forwardRef<ReactEcharts, WordCloudProps>(
             },
           ],
         },
-        config,
+        config
       );
     }, [data, height, width, config]);
 
-    return (
-      <ReactEcharts
-        ref={ref}
-        echarts={echarts}
-        option={option}
-        style={{ width, height }}
-        onEvents={onEvents}
-      />
-    );
-  },
+    return <ReactEcharts ref={ref} echarts={echarts} option={option} style={{ width, height }} onEvents={onEvents} />;
+  }
 );

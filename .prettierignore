@@ -2,5 +2,11 @@
 **/*.ejs
 **/*.html
 package.json
+*.yaml
 .umi
 .umi-production
+
+example
+lib
+.changeset
+docs

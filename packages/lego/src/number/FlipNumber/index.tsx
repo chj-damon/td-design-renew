@@ -1,12 +1,7 @@
-import React, {
-  CSSProperties,
-  forwardRef,
-  useRef,
-  useImperativeHandle,
-} from 'react';
+import classNames from 'classnames';
+import React, { CSSProperties, forwardRef, useImperativeHandle, useRef } from 'react';
 import { useCountUp } from 'react-countup';
 import './index.less';
-import classNames from 'classnames';
 
 export interface FlipNumberProps {
   auto?: boolean;
@@ -57,13 +52,7 @@ const FlipNumber = forwardRef<FlipNumberRef, FlipNumberProps>((props, ref) => {
     reset,
   }));
 
-  return (
-    <div
-      ref={countUpRef}
-      className={classNames('wrap', `${className}`)}
-      style={style}
-    ></div>
-  );
+  return <div ref={countUpRef} className={classNames('wrap', `${className}`)} style={style}></div>;
 });
 
 export default FlipNumber;

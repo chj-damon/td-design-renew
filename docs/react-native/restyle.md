@@ -72,9 +72,7 @@ export default theme;
 import { ThemeProvider } from '@shopify/restyle';
 import theme from './theme';
 
-const App = () => (
-  <ThemeProvider theme={theme}>{/* Rest of the app */}</ThemeProvider>
-);
+const App = () => <ThemeProvider theme={theme}>{/* Rest of the app */}</ThemeProvider>;
 ```
 
 ### Colors 颜色
@@ -246,20 +244,11 @@ const theme = createTheme({
 如果我们想要自己创建一个类似`Box`和`Text`这样的组件，但是我们自己决定组件可以接受那些类别的属性，我们可以使用`createRestyleComponent`。示例如下：
 
 ```tsx | pure
-import {
-  createRestyleComponent,
-  createVariant,
-  spacing,
-  SpacingProps,
-  VariantProps,
-} from '@shopify/restyle';
+import { createRestyleComponent, createVariant, spacing, SpacingProps, VariantProps } from '@shopify/restyle';
 import { Theme } from './theme';
 
 type Props = SpacingProps<Theme> & VariantProps<Theme, 'cardVariants'>;
-const Card = createRestyleComponent<Props>([
-  spacing,
-  createVariant({ themeKey: 'cardVariants' }),
-]);
+const Card = createRestyleComponent<Props>([spacing, createVariant({ themeKey: 'cardVariants' })]);
 
 export default Card;
 ```
@@ -267,26 +256,22 @@ export default Card;
 如果觉得这还不够，也可以使用`useRestyle`这个 hooks 来实现更强大的定制功能。示例如下：
 
 ```tsx | pure
-import { TouchableOpacity, View } from 'react-native';
 import {
-  useRestyle,
-  spacing,
-  border,
   backgroundColor,
-  SpacingProps,
-  BorderProps,
   BackgroundColorProps,
+  border,
+  BorderProps,
   composeRestyleFunctions,
+  spacing,
+  SpacingProps,
+  useRestyle,
 } from '@shopify/restyle';
+import { TouchableOpacity, View } from 'react-native';
 
 import Text from './Text';
 import { Theme } from './theme';
 
-const restyleFunctions = composeRestyleFunctions([
-  spacing,
-  border,
-  backgroundColor,
-]);
+const restyleFunctions = composeRestyleFunctions([spacing, border, backgroundColor]);
 type Props = SpacingProps<Theme> &
   BorderProps<Theme> &
   BackgroundColorProps<Theme> & {
@@ -310,24 +295,24 @@ const Button = ({ onPress, label, ...rest }: Props) => {
 
 **Restyle Functions**把组件允许接受的属性做了一下分类，同时映射到主题对象，我们可以非常方便地使用他们来约束组件的属性以及快速开发基于主题对象的组件。
 
-| 类别            | 属性                                                                                                                                                                                                                                                                                | 对应的主体对象 Key 值 |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| backgroundColor | `backgroundColor`                                                                                                                                                                                                                                                                   | `colors`              |
-| color           | `color`                                                                                                                                                                                                                                                                             | `colors`              |
-| opacity         | `opacity`                                                                                                                                                                                                                                                                           |                       |
-| visible         | `display`                                                                                                                                                                                                                                                                           |                       |
-| spacing         | `margin`, `marginTop`, `marginRight`, `marginBottom`, `marginLeft`, `marginStart`, `marginEnd`, `marginHorizontal`, `marginVertical`, `padding`, `paddingTop`, `paddingRight`, `paddingBottom`, `paddingLeft`, `paddingStart`, `paddingEnd`, `paddingHorizontal`, `paddingVertical` | `spacing`             |
-| layout          | `width`, `height`, `minWidth`, `maxWidth`, `minHeight`, `maxHeight`, `overflow`, `aspectRatio`, `alignContent`, `alignItems`, `alignSelf`, `justifyContent`, `flex`, `flexBasis`, `flexDirection`, `flexGrow`, `flexShrink`, `flexWrap`                                             |                       |
-| position        | `position`, `top`, `right`, `bottom`, `left`, `start`, `end`                                                                                                                                                                                                                        |                       |
-| position        | `zIndex`                                                                                                                                                                                                                                                                            | `zIndices`            |
-| border          | `borderBottomWidth`, `borderLeftWidth`, `borderRightWidth`, `borderStartWidth`, `borderEndWidth`, `borderStyle`, `borderTopWidth`, `borderWidth`                                                                                                                                    |                       |
-| border          | `borderColor`, `borderTopColor`, `borderRightColor`, `borderLeftColor`, `borderStartColor`, `borderEndColor`, `borderBottomColor`                                                                                                                                                   | `colors`              |
-| border          | `borderRadius`, `borderBottomLeftRadius`, `borderBottomRightRadius`, `borderBottomStartRadius`, `borderBottomEndRadius`, `borderTopLeftRadius`, `borderTopRightRadius`, `borderTopStartRadius`, `borderTopEndRadius`                                                                | `borderRadii`         |
-| shadow          | `shadowOpacity`, `shadowOffset`, `shadowRadius`, `elevation`                                                                                                                                                                                                                        |                       |
-| shadow          | `shadowColor`                                                                                                                                                                                                                                                                       | `colors`              |
-| textShadow      | `textShadowOffset`, `textShadowRadius`                                                                                                                                                                                                                                              |                       |
-| textShadow      | `textShadowColor`                                                                                                                                                                                                                                                                   | `colors`              |
-| typography      | `fontFamily`, `fontSize`, `fontStyle`, `fontWeight`, `letterSpacing`, `lineHeight`, `textAlign`, `textDecorationLine`, `textDecorationStyle`, `textTransform`                                                                                                                       |                       |
+| 类别 | 属性 | 对应的主体对象 Key 值 |
+| --- | --- | --- |
+| backgroundColor | `backgroundColor` | `colors` |
+| color | `color` | `colors` |
+| opacity | `opacity` |  |
+| visible | `display` |  |
+| spacing | `margin`, `marginTop`, `marginRight`, `marginBottom`, `marginLeft`, `marginStart`, `marginEnd`, `marginHorizontal`, `marginVertical`, `padding`, `paddingTop`, `paddingRight`, `paddingBottom`, `paddingLeft`, `paddingStart`, `paddingEnd`, `paddingHorizontal`, `paddingVertical` | `spacing` |
+| layout | `width`, `height`, `minWidth`, `maxWidth`, `minHeight`, `maxHeight`, `overflow`, `aspectRatio`, `alignContent`, `alignItems`, `alignSelf`, `justifyContent`, `flex`, `flexBasis`, `flexDirection`, `flexGrow`, `flexShrink`, `flexWrap` |  |
+| position | `position`, `top`, `right`, `bottom`, `left`, `start`, `end` |  |
+| position | `zIndex` | `zIndices` |
+| border | `borderBottomWidth`, `borderLeftWidth`, `borderRightWidth`, `borderStartWidth`, `borderEndWidth`, `borderStyle`, `borderTopWidth`, `borderWidth` |  |
+| border | `borderColor`, `borderTopColor`, `borderRightColor`, `borderLeftColor`, `borderStartColor`, `borderEndColor`, `borderBottomColor` | `colors` |
+| border | `borderRadius`, `borderBottomLeftRadius`, `borderBottomRightRadius`, `borderBottomStartRadius`, `borderBottomEndRadius`, `borderTopLeftRadius`, `borderTopRightRadius`, `borderTopStartRadius`, `borderTopEndRadius` | `borderRadii` |
+| shadow | `shadowOpacity`, `shadowOffset`, `shadowRadius`, `elevation` |  |
+| shadow | `shadowColor` | `colors` |
+| textShadow | `textShadowOffset`, `textShadowRadius` |  |
+| textShadow | `textShadowColor` | `colors` |
+| typography | `fontFamily`, `fontSize`, `fontStyle`, `fontWeight`, `letterSpacing`, `lineHeight`, `textAlign`, `textDecorationLine`, `textDecorationStyle`, `textTransform` |  |
 
 ### Variants
 
@@ -413,10 +398,7 @@ const theme = createTheme({
 另外，如果我们想要把一些属性跟响应式关联，我们可以借助`useResponsiveProp`这个 hooks。示例如下：
 
 ```tsx | pure
-const Button = ({
-  color = { phone: 'purple', tablet: 'blue' },
-  ...restProps
-}) => {
+const Button = ({ color = { phone: 'purple', tablet: 'blue' }, ...restProps }) => {
   // 设备是phone的时候，值为purple；设备是tablet的时候，值为blue
   const textColorProp = useResponsiveProp(color);
 
@@ -501,31 +483,18 @@ const App = () => {
   return (
     <ThemeProvider theme={darkMode ? darkTheme : theme}>
       <Box padding="x3" backgroundColor="mainBackground" flex={1}>
-        <Box
-          backgroundColor="primaryCardBackground"
-          margin="x2"
-          padding="x3"
-          flexGrow={1}
-        >
+        <Box backgroundColor="primaryCardBackground" margin="x2" padding="x3" flexGrow={1}>
           <Text variant="body" color="primaryCardText">
             Primary Card
           </Text>
         </Box>
-        <Box
-          backgroundColor="secondaryCardBackground"
-          margin="x2"
-          padding="x3"
-          flexGrow={1}
-        >
+        <Box backgroundColor="secondaryCardBackground" margin="x2" padding="x3" flexGrow={1}>
           <Text variant="body" color="secondaryCardText">
             Secondary Card
           </Text>
         </Box>
         <Box marginTop="x3">
-          <Switch
-            value={darkMode}
-            onValueChange={(value: boolean) => setDarkMode(value)}
-          />
+          <Switch value={darkMode} onValueChange={(value: boolean) => setDarkMode(value)} />
         </Box>
       </Box>
     </ThemeProvider>

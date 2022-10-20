@@ -1,33 +1,31 @@
-import React, { CSSProperties, forwardRef, useMemo } from 'react';
 import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts/core';
 import {
   CustomChart,
   // 系列类型的定义后缀都为 SeriesOption
   CustomSeriesOption,
 } from 'echarts/charts';
 import {
-  TooltipComponent,
-  TooltipComponentOption,
   // 组件类型的定义后缀都为 ComponentOption
   GridComponent,
   GridComponentOption,
+  TooltipComponent,
+  TooltipComponentOption,
 } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { merge } from 'lodash-es';
+import React, { CSSProperties, forwardRef, useMemo } from 'react';
 
 import { TooltipOption, YAXisOption } from 'echarts/types/dist/shared';
-import useTheme from '../../hooks/useTheme';
 import useBaseBarConfig from '../../hooks/useBaseBarConfig';
 import useBaseChartConfig from '../../hooks/useBaseChartConfig';
 import useChartLoop from '../../hooks/useChartLoop';
 import useStyle from '../../hooks/useStyle';
+import useTheme from '../../hooks/useTheme';
 import createStackSeries from '../../utils/createStackSeries';
 
 // 通过 ComposeOption 来组合出一个只有必须组件和图表的 Option 类型
-type ECOption = echarts.ComposeOption<
-  CustomSeriesOption | TooltipComponentOption | GridComponentOption
->;
+type ECOption = echarts.ComposeOption<CustomSeriesOption | TooltipComponentOption | GridComponentOption>;
 
 // 注册必须的组件
 echarts.use([TooltipComponent, GridComponent, CustomChart, CanvasRenderer]);
@@ -67,7 +65,7 @@ export default forwardRef<ReactEcharts, StackBarProps>(
       showYAxisLine = true,
       onEvents,
     },
-    ref,
+    ref
   ) => {
     const theme = useTheme();
     const baseBarConfig = useBaseBarConfig(inModal);
@@ -77,7 +75,7 @@ export default forwardRef<ReactEcharts, StackBarProps>(
 
     const chartColor = useMemo(
       () => seriesColor || [theme.colors.primary50, theme.colors.primary300],
-      [seriesColor, theme.colors.primary300, theme.colors.primary50],
+      [seriesColor, theme.colors.primary300, theme.colors.primary50]
     );
     const totalData = useMemo(() => {
       const totalData: number[] = [];
@@ -117,15 +115,9 @@ export default forwardRef<ReactEcharts, StackBarProps>(
               show: showYAxisLine,
             },
           },
-          series: createStackSeries(
-            chartColor,
-            baseBarConfig,
-            seriesData,
-            totalData,
-            unit,
-          ),
+          series: createStackSeries(chartColor, baseBarConfig, seriesData, totalData, unit),
         },
-        config,
+        config
       ) as ECOption;
     }, [
       baseBarConfig,
@@ -154,5 +146,5 @@ export default forwardRef<ReactEcharts, StackBarProps>(
         />
       </div>
     );
-  },
+  }
 );

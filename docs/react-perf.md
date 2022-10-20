@@ -36,7 +36,7 @@ export default function App() {
 
   return (
     <div>
-      <input value={num} onChange={(e) => updateNum(+e.target.value)} />
+      <input value={num} onChange={e => updateNum(+e.target.value)} />
       <p>num is {num}</p>
       <ExpensiveCpn />
     </div>
@@ -62,7 +62,7 @@ function Input() {
   const [num, updateNum] = useState(0);
   return (
     <>
-      <input value={num} onChange={(e) => updateNum(+e.target.value)} />
+      <input value={num} onChange={e => updateNum(+e.target.value)} />
       <p>num is {num}</p>
     </>
   );
@@ -98,7 +98,7 @@ export default function App() {
   const [num, updateNum] = useState(0);
   return (
     <div title={num + ''}>
-      <input value={num} onChange={(e) => updateNum(+e.target.value)} />
+      <input value={num} onChange={e => updateNum(+e.target.value)} />
       <p>num is {num}</p>
       <ExpensiveCpn />
     </div>
@@ -154,7 +154,7 @@ const renderItem = useCallback(
 
     return <MarketCell onPress={handlePress} key={node.uuid} asset={node} />;
   },
-  [push],
+  [push]
 );
 
 // const MarketCell = memo((props) => ...)
@@ -165,21 +165,19 @@ const renderItem = useCallback(
 所以解决办法也很简单，我们只要把`handlePress`方法用`useCallback`包裹起来，就不会重新创建，这样就不会重新渲染了。同时我们应该把整个`renderItem`里面的函数封装成一个自定义组件：
 
 ```jsx | pure
-const Item = memo(
-  ({ asset }: { asset: MarketCellProps['asset'] & { slug: string } }) => {
-    const slug = asset.slug;
+const Item = memo(({ asset }: { asset: MarketCellProps['asset'] & { slug: string } }) => {
+  const slug = asset.slug;
 
-    // 将push方法从renderItem的依赖，转移到自定义组件内部
-    const { push } = useStackNavigation();
+  // 将push方法从renderItem的依赖，转移到自定义组件内部
+  const { push } = useStackNavigation();
 
-    // handlePress 不会被重新创建
-    const handlePress = useCallback(() => {
-      push('SignedOutAssetScreen', { assetSlug: slug });
-    }, [slug, push]);
+  // handlePress 不会被重新创建
+  const handlePress = useCallback(() => {
+    push('SignedOutAssetScreen', { assetSlug: slug });
+  }, [slug, push]);
 
-    return <MarketCell onPress={handlePress} asset={asset} />;
-  },
-);
+  return <MarketCell onPress={handlePress} asset={asset} />;
+});
 
 // renderItem 返回一个组件
 const renderItem = useCallback(({ item: { node } }) => {
@@ -269,7 +267,7 @@ function Component(props) {
 所以，我们如果能够保证列表项不会改变，那么我们就可以用`index`作为 key。
 
 ```jsx | pure
-const todoItems = todos.map((todo) => (
+const todoItems = todos.map(todo => (
   // 优先使用todo里面能唯一标识这条数据的属性作为key
   <li key={todo.id}>{todo.text}</li>
 ));
@@ -418,8 +416,7 @@ React 中是默认使用全等来判断`props`是否相等的，所以即便是`
 import React, { useState, useContext } from 'react';
 
 const numCtx = React.createContext < number > 0;
-const updateNumCtx =
-  React.createContext < React.Dispatch < number >> (() => {});
+const updateNumCtx = React.createContext < React.Dispatch < number >> (() => {});
 
 function Button() {
   const updateNum = useContext(updateNumCtx); // updateNum是一个dispatch，它是不变的。
@@ -478,7 +475,7 @@ const Middle = () => {
         <Show />
       </>
     ),
-    [],
+    []
   );
 };
 ```

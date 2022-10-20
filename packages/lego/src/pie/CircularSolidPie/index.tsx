@@ -1,36 +1,21 @@
-import React, {
-  CSSProperties,
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
 import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts/core';
 import { PieChart, PieSeriesOption } from 'echarts/charts';
-import {
-  TooltipComponent,
-  TooltipComponentOption,
-  GraphicComponent,
-  GraphicComponentOption,
-} from 'echarts/components';
+import { GraphicComponent, GraphicComponentOption, TooltipComponent, TooltipComponentOption } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { merge } from 'lodash-es';
+import React, { CSSProperties, forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import createLinearGradient from '../../utils/createLinearGradient';
-import useTheme from '../../hooks/useTheme';
-import useBasePieConfig from '../../hooks/useBasePieConfig';
 import useBaseChartConfig from '../../hooks/useBaseChartConfig';
+import useBasePieConfig from '../../hooks/useBasePieConfig';
+import useTheme from '../../hooks/useTheme';
+import createLinearGradient from '../../utils/createLinearGradient';
 
 import imgPieBg from '../../assets/img_circle_bg.webp';
 import useChartLoop from '../../hooks/useChartLoop';
-import useStyle from '../../hooks/useStyle';
 import useNodeBoundingRect from '../../hooks/useNodeBoundingRect';
+import useStyle from '../../hooks/useStyle';
 
-type ECOption = echarts.ComposeOption<
-  PieSeriesOption | TooltipComponentOption | GraphicComponentOption
->;
+type ECOption = echarts.ComposeOption<PieSeriesOption | TooltipComponentOption | GraphicComponentOption>;
 
 echarts.use([TooltipComponent, PieChart, GraphicComponent]);
 
@@ -48,19 +33,7 @@ export interface CircularSolidPieProps {
 
 /** 透明圆环饼图-对应Figma饼图4 */
 export default forwardRef<ReactEcharts, CircularSolidPieProps>(
-  (
-    {
-      data = [],
-      style,
-      imgStyle,
-      autoLoop = false,
-      config,
-      duration = 2000,
-      pieColors = [],
-      onEvents,
-    },
-    ref,
-  ) => {
+  ({ data = [], style, imgStyle, autoLoop = false, config, duration = 2000, pieColors = [], onEvents }, ref) => {
     const theme = useTheme();
     const baseChartConfig = useBaseChartConfig();
     const basePieConfig = useBasePieConfig();
@@ -72,7 +45,7 @@ export default forwardRef<ReactEcharts, CircularSolidPieProps>(
       ref,
       data.filter((_item, idx) => activeLegends.includes(idx)),
       autoLoop,
-      duration,
+      duration
     );
 
     const { style: modifiedStyle } = useStyle(style);
@@ -87,18 +60,15 @@ export default forwardRef<ReactEcharts, CircularSolidPieProps>(
     }, [length]);
 
     // 记录图例改变后的数据
-    const legendSelectChanged = useCallback(
-      ({ selected }: { selected: { [name: string]: boolean } }) => {
-        const selectArr: number[] = [];
-        Object.keys(selected).forEach((key, index) => {
-          if (selected[key]) {
-            selectArr.push(index);
-          }
-        });
-        setActiveLegends(selectArr);
-      },
-      [],
-    );
+    const legendSelectChanged = useCallback(({ selected }: { selected: { [name: string]: boolean } }) => {
+      const selectArr: number[] = [];
+      Object.keys(selected).forEach((key, index) => {
+        if (selected[key]) {
+          selectArr.push(index);
+        }
+      });
+      setActiveLegends(selectArr);
+    }, []);
 
     const baseColors = useMemo(() => {
       if (pieColors?.length > 0 && pieColors?.length >= data?.length) {
@@ -123,18 +93,15 @@ export default forwardRef<ReactEcharts, CircularSolidPieProps>(
       theme.colors.primary500,
     ]);
 
-    const colors = useMemo(
-      () => baseColors.map((item) => createLinearGradient(item)),
-      [baseColors],
-    );
+    const colors = useMemo(() => baseColors.map(item => createLinearGradient(item)), [baseColors]);
 
     const option = useMemo(() => {
       const total = Math.round(
         data
-          .map((item) => +item.value)
+          .map(item => +item.value)
           .reduce((value: number, total: number) => {
             return value + total;
-          }, 0),
+          }, 0)
       );
 
       const gapValue = Number(total) * 0.01;
@@ -143,7 +110,7 @@ export default forwardRef<ReactEcharts, CircularSolidPieProps>(
       if (data.length == 1) {
         seriesData.push(data[0]);
       } else {
-        data.forEach((ele) => {
+        data.forEach(ele => {
           seriesData.push(
             {
               value: +ele.value,
@@ -159,7 +126,7 @@ export default forwardRef<ReactEcharts, CircularSolidPieProps>(
                 borderColor: 'transparent',
                 borderWidth: 0,
               },
-            },
+            }
           );
         });
       }
@@ -171,7 +138,7 @@ export default forwardRef<ReactEcharts, CircularSolidPieProps>(
             ...baseChartConfig.legend,
             orient: 'horizontal',
             left: '1%',
-            data: seriesData.filter((i) => i.name),
+            data: seriesData.filter(i => i.name),
           },
           series: [
             {
@@ -210,9 +177,7 @@ export default forwardRef<ReactEcharts, CircularSolidPieProps>(
                 padding: [10, -50, 50, -40],
                 formatter: ({ name }: { name: string }) => {
                   if (!name) return;
-                  return `{a|${name}}{b|\n${Number(
-                    seriesData.find((item) => item.name === name)?.percent,
-                  ).toFixed(2)}%}`;
+                  return `{a|${name}}{b|\n${Number(seriesData.find(item => item.name === name)?.percent).toFixed(2)}%}`;
                 },
                 opacity: 1,
                 rich: {
@@ -232,7 +197,7 @@ export default forwardRef<ReactEcharts, CircularSolidPieProps>(
                 length2: 60,
                 minTurnAngle: 45,
               },
-              data: seriesData.filter((item) => !!item.name),
+              data: seriesData.filter(item => !!item.name),
               zlevel: 3,
             },
             {
@@ -251,17 +216,9 @@ export default forwardRef<ReactEcharts, CircularSolidPieProps>(
             },
           ],
         },
-        config,
+        config
       ) as ECOption;
-    }, [
-      baseChartConfig.legend,
-      basePieConfig,
-      data,
-      theme.colors.gray50,
-      colors,
-      theme.typography.p2,
-      config,
-    ]);
+    }, [baseChartConfig.legend, basePieConfig, data, theme.colors.gray50, colors, theme.typography.p2, config]);
 
     return (
       <div style={modifiedStyle} ref={divRef}>
@@ -286,5 +243,5 @@ export default forwardRef<ReactEcharts, CircularSolidPieProps>(
         />
       </div>
     );
-  },
+  }
 );

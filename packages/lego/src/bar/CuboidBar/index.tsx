@@ -1,32 +1,30 @@
-import React, { CSSProperties, useMemo, forwardRef } from 'react';
 import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts/core';
 import {
   CustomChart,
   // 系列类型的定义后缀都为 SeriesOption
   CustomSeriesOption,
 } from 'echarts/charts';
 import {
-  TooltipComponent,
-  TooltipComponentOption,
   // 组件类型的定义后缀都为 ComponentOption
   GridComponent,
   GridComponentOption,
+  TooltipComponent,
+  TooltipComponentOption,
 } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { TooltipOption, YAXisOption } from 'echarts/types/dist/shared';
 import { merge } from 'lodash-es';
+import React, { CSSProperties, forwardRef, useMemo } from 'react';
 
-import createCuboidSeries from '../../utils/createCuboidSeries';
-import createLinearGradient from '../../utils/createLinearGradient';
-import useTheme from '../../hooks/useTheme';
 import useBaseChartConfig from '../../hooks/useBaseChartConfig';
 import useChartLoop from '../../hooks/useChartLoop';
+import useTheme from '../../hooks/useTheme';
+import createCuboidSeries from '../../utils/createCuboidSeries';
+import createLinearGradient from '../../utils/createLinearGradient';
 
 // 通过 ComposeOption 来组合出一个只有必须组件和图表的 Option 类型
-type ECOption = echarts.ComposeOption<
-  CustomSeriesOption | TooltipComponentOption | GridComponentOption
->;
+type ECOption = echarts.ComposeOption<CustomSeriesOption | TooltipComponentOption | GridComponentOption>;
 
 // 注册必须的组件
 echarts.use([TooltipComponent, GridComponent, CustomChart, CanvasRenderer]);
@@ -74,7 +72,7 @@ const CuboidBar = forwardRef<ReactEcharts, CuboidBarProps>(
       onEvents,
       showYAxisLine = true,
     },
-    ref,
+    ref
   ) => {
     const theme = useTheme();
     const baseChartConfig = useBaseChartConfig(inModal, unit);
@@ -112,7 +110,7 @@ const CuboidBar = forwardRef<ReactEcharts, CuboidBarProps>(
           },
           series: [createCuboidSeries(theme, { name: name ?? '', data })],
         },
-        config,
+        config
       ) as ECOption;
     }, [
       baseChartConfig.grid,
@@ -129,16 +127,8 @@ const CuboidBar = forwardRef<ReactEcharts, CuboidBarProps>(
       showYAxisLine,
     ]);
 
-    return (
-      <ReactEcharts
-        ref={echartsRef}
-        echarts={echarts}
-        option={option}
-        style={style}
-        onEvents={onEvents}
-      />
-    );
-  },
+    return <ReactEcharts ref={echartsRef} echarts={echarts} option={option} style={style} onEvents={onEvents} />;
+  }
 );
 
 export default CuboidBar;

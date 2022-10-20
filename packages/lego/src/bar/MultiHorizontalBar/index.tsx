@@ -1,45 +1,36 @@
-import React, { CSSProperties, forwardRef, useMemo } from 'react';
 import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts/core';
 import {
   PictorialBarChart,
   // 系列类型的定义后缀都为 SeriesOption
   PictorialBarSeriesOption,
 } from 'echarts/charts';
 import {
-  TooltipComponent,
-  TooltipComponentOption,
   // 组件类型的定义后缀都为 ComponentOption
   GridComponent,
   GridComponentOption,
   SingleAxisComponent,
   SingleAxisComponentOption,
+  TooltipComponent,
+  TooltipComponentOption,
 } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { TooltipOption, YAXisOption } from 'echarts/types/dist/shared';
 import { merge } from 'lodash-es';
+import React, { CSSProperties, forwardRef, useMemo } from 'react';
 
-import { imgLeftData, imgRightData } from './img';
-import useTheme from '../../hooks/useTheme';
 import useBaseChartConfig from '../../hooks/useBaseChartConfig';
+import useTheme from '../../hooks/useTheme';
 import createLinearGradient from '../../utils/createLinearGradient';
+import { imgLeftData, imgRightData } from './img';
 
 // 通过 ComposeOption 来组合出一个只有必须组件和图表的 Option 类型
 type ECOption = echarts.ComposeOption<
-  | PictorialBarSeriesOption
-  | TooltipComponentOption
-  | GridComponentOption
-  | SingleAxisComponentOption
+  PictorialBarSeriesOption | TooltipComponentOption | GridComponentOption | SingleAxisComponentOption
 >;
 
 // 注册必须的组件
-echarts.use([
-  TooltipComponent,
-  GridComponent,
-  SingleAxisComponent,
-  PictorialBarChart,
-  CanvasRenderer,
-]);
+echarts.use([TooltipComponent, GridComponent, SingleAxisComponent, PictorialBarChart, CanvasRenderer]);
 
 export interface MultiHorizontalBarProps {
   unit?: string | [string, string];
@@ -56,19 +47,7 @@ export interface MultiHorizontalBarProps {
  * 双列水平条形图，对应figma柱状图6
  */
 export default forwardRef<ReactEcharts, MultiHorizontalBarProps>(
-  (
-    {
-      unit = '',
-      max,
-      leftData,
-      rightData,
-      style,
-      config,
-      inModal = false,
-      onEvents,
-    },
-    ref,
-  ) => {
+  ({ unit = '', max, leftData, rightData, style, config, inModal = false, onEvents }, ref) => {
     const theme = useTheme();
     const baseChartConfig = useBaseChartConfig(inModal);
     const leftUnit = typeof unit === 'string' ? unit : unit[0];
@@ -117,15 +96,13 @@ export default forwardRef<ReactEcharts, MultiHorizontalBarProps>(
               <div style="
                 width: 7px;
                 height: 7px;
-                background: linear-gradient(180deg, ${
-                  params[0]?.color?.colorStops?.[0]?.color
-                } 0%, ${params[0]?.color?.colorStops?.[1]?.color} 100%);
+                background: linear-gradient(180deg, ${params[0]?.color?.colorStops?.[0]?.color} 0%, ${
+                params[0]?.color?.colorStops?.[1]?.color
+              } 100%);
                 margin-right: 4px;
                 border-radius: 7px;
               "></div>
-              ${params[0]?.seriesName}：${
-                params[0]?.data?.value || params[0]?.data
-              } ${params[0]?.data?.unit ?? ''}
+              ${params[0]?.seriesName}：${params[0]?.data?.value || params[0]?.data} ${params[0]?.data?.unit ?? ''}
             </div>
           `;
 
@@ -280,7 +257,7 @@ export default forwardRef<ReactEcharts, MultiHorizontalBarProps>(
               symbolOffset: [-18, 0],
               symbolPosition: 'start',
               symbolBoundingData: leftMax * 0.85,
-              data: leftData.data.map((item) => ({ ...item, unit: leftUnit })),
+              data: leftData.data.map(item => ({ ...item, unit: leftUnit })),
               z: 3,
               animationEasing: 'elasticOut',
             },
@@ -340,7 +317,7 @@ export default forwardRef<ReactEcharts, MultiHorizontalBarProps>(
               symbolOffset: [18, 0],
               symbolPosition: 'start',
               symbolBoundingData: rightMax * 0.85,
-              data: rightData.data.map((item) => ({
+              data: rightData.data.map(item => ({
                 ...item,
                 unit: rightUnit,
               })),
@@ -385,7 +362,7 @@ export default forwardRef<ReactEcharts, MultiHorizontalBarProps>(
             },
           ],
         },
-        config,
+        config
       ) as ECOption;
     }, [
       baseChartConfig.legend,
@@ -409,21 +386,10 @@ export default forwardRef<ReactEcharts, MultiHorizontalBarProps>(
       config,
     ]);
 
-    return (
-      <ReactEcharts
-        ref={ref}
-        echarts={echarts}
-        option={option}
-        style={style}
-        onEvents={onEvents}
-      />
-    );
-  },
+    return <ReactEcharts ref={ref} echarts={echarts} option={option} style={style} onEvents={onEvents} />;
+  }
 );
 
-function getArrByKey(
-  list: { name: string; value: number | string }[],
-  key: string,
-) {
-  return list.map((item) => item[key]);
+function getArrByKey(list: { name: string; value: number | string }[], key: string) {
+  return list.map(item => item[key]);
 }

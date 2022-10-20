@@ -7,7 +7,7 @@
     "build": "turbo run build",
     "commit": "git-cz",
     "prepare": "husky install",
-    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
+    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,md,json}\"",
     "doc:dev": "dumi dev",
     "doc:build": "dumi build",
     "changeset": "changeset"
@@ -18,7 +18,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,less,md,json}": [
+    "*.{js,jsx,md,json}": [
       "prettier --write"
     ],
     "*.ts?(x)": [
@@ -40,6 +40,8 @@
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
+    "prettier-plugin-organize-imports": "^3.1.1",
+    "prettier-plugin-packagejson": "^2.3.0",
     "turbo": "^1.5.6",
     "yorkie": "^2.0.0"
   },

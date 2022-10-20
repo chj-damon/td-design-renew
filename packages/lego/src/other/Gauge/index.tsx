@@ -1,14 +1,8 @@
-import React, {
-  CSSProperties,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react';
 import color from 'color';
-import useTheme from '../../hooks/useTheme';
-import useStyle from '../../hooks/useStyle';
+import React, { CSSProperties, useCallback, useEffect, useMemo, useRef } from 'react';
 import useNodeBoundingRect from '../../hooks/useNodeBoundingRect';
+import useStyle from '../../hooks/useStyle';
+import useTheme from '../../hooks/useTheme';
 
 export interface GaugeProps {
   max: number;
@@ -42,10 +36,7 @@ export default ({ max = 100, style = {}, ...props }: GaugeProps) => {
   const canvasHeight = useMemo(() => (rect?.height ?? 0) * 2, [rect]);
 
   // 根据长宽最短的进行计算半径
-  const radius = useMemo(
-    () => Math.min(canvasWidth, canvasHeight) / 2,
-    [canvasHeight, canvasWidth],
-  );
+  const radius = useMemo(() => Math.min(canvasWidth, canvasHeight) / 2, [canvasHeight, canvasWidth]);
 
   const colorArr = useMemo(() => {
     return [
@@ -54,24 +45,11 @@ export default ({ max = 100, style = {}, ...props }: GaugeProps) => {
       theme.colors.primary200[0],
       theme.colors.primary100[0],
     ];
-  }, [
-    theme.colors.primary100,
-    theme.colors.primary200,
-    theme.colors.primary300,
-    theme.colors.primary400,
-  ]);
+  }, [theme.colors.primary100, theme.colors.primary200, theme.colors.primary300, theme.colors.primary400]);
 
   const lineColor = useMemo(() => {
-    return [
-      theme.colors.primary400[0],
-      theme.colors.primary50[1],
-      theme.colors.primary100[0],
-    ];
-  }, [
-    theme.colors.primary100,
-    theme.colors.primary400,
-    theme.colors.primary50,
-  ]);
+    return [theme.colors.primary400[0], theme.colors.primary50[1], theme.colors.primary100[0]];
+  }, [theme.colors.primary100, theme.colors.primary400, theme.colors.primary50]);
 
   const numberColors = useMemo(() => {
     return [
@@ -116,7 +94,7 @@ export default ({ max = 100, style = {}, ...props }: GaugeProps) => {
           parseInt(+sG * i + +startG + '') +
           ',' +
           parseInt(+sB * i + +startB + '') +
-          ')',
+          ')'
       );
       colorArr.push(hex);
     }
@@ -155,7 +133,7 @@ export default ({ max = 100, style = {}, ...props }: GaugeProps) => {
       }
       ctx.restore();
     },
-    [colorList],
+    [colorList]
   );
 
   const drawTick = useCallback(
@@ -178,7 +156,7 @@ export default ({ max = 100, style = {}, ...props }: GaugeProps) => {
       }
       ctx.restore();
     },
-    [colorList],
+    [colorList]
   );
 
   const drawNumber = useCallback(
@@ -200,7 +178,7 @@ export default ({ max = 100, style = {}, ...props }: GaugeProps) => {
       }
       ctx.restore();
     },
-    [interval, numberColors],
+    [interval, numberColors]
   );
 
   const drawLine = useCallback(
@@ -223,19 +201,13 @@ export default ({ max = 100, style = {}, ...props }: GaugeProps) => {
         ctx.lineWidth = 20;
         ctx.strokeStyle = list[i];
 
-        ctx.arc(
-          0,
-          0,
-          (radius * 3) / 4,
-          (60 / 45 / 300) * i * Math.PI,
-          (60 / 45 / 300) * (i + 1.3) * Math.PI,
-        );
+        ctx.arc(0, 0, (radius * 3) / 4, (60 / 45 / 300) * i * Math.PI, (60 / 45 / 300) * (i + 1.3) * Math.PI);
         ctx.stroke();
         ctx.closePath();
         ctx.restore();
       }
     },
-    [gradientColor, lineColor],
+    [gradientColor, lineColor]
   );
 
   const drawPointer = useCallback(
@@ -258,7 +230,7 @@ export default ({ max = 100, style = {}, ...props }: GaugeProps) => {
       ctx.closePath();
       ctx.restore();
     },
-    [max],
+    [max]
   );
 
   const drawCenter = useCallback(() => {
@@ -281,7 +253,7 @@ export default ({ max = 100, style = {}, ...props }: GaugeProps) => {
   }, []);
 
   const drawValue = useCallback(
-    (value) => {
+    value => {
       const ctx = canvasRef.current?.getContext('2d');
       if (!ctx) return;
       ctx.save();
@@ -292,7 +264,7 @@ export default ({ max = 100, style = {}, ...props }: GaugeProps) => {
       ctx.fillText(value + '', 0, 120);
       ctx.restore();
     },
-    [theme.colors.gray50],
+    [theme.colors.gray50]
   );
 
   const resizeInit = useCallback(() => {

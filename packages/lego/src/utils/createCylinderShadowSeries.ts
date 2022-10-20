@@ -1,11 +1,11 @@
-import createLinearGradient from './createLinearGradient';
 import { Theme } from '../theme';
+import createLinearGradient from './createLinearGradient';
 
 export default function createCylinderShadowSeries(
   theme: Theme,
   baseBarConfig: any,
   seriesData: BarSeriesData,
-  max: number,
+  max: number
 ) {
   const { name = '', data = [] } = seriesData || { name: '', data: [] };
   return [

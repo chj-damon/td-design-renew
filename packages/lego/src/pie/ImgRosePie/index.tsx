@@ -1,33 +1,24 @@
-import React, { CSSProperties, forwardRef, useCallback, useMemo } from 'react';
 import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts/core';
 import { PieChart, PieSeriesOption } from 'echarts/charts';
-import {
-  TooltipComponent,
-  TooltipComponentOption,
-  GraphicComponent,
-  GraphicComponentOption,
-} from 'echarts/components';
+import { GraphicComponent, GraphicComponentOption, TooltipComponent, TooltipComponentOption } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { merge } from 'lodash-es';
+import React, { CSSProperties, forwardRef, useCallback, useMemo } from 'react';
 
-import createLinearGradient from '../../utils/createLinearGradient';
-import useTheme from '../../hooks/useTheme';
 import useBaseChartConfig from '../../hooks/useBaseChartConfig';
 import useBasePieConfig from '../../hooks/useBasePieConfig';
+import useTheme from '../../hooks/useTheme';
+import createLinearGradient from '../../utils/createLinearGradient';
 
+import { useEffect, useRef, useState } from 'react';
 import imgPieGraphic from '../../assets/img_pie_graphic.png';
-import imgRosePieGraphic from '../../assets/img_rose_pie_graphic.png';
 import imgRosePieBg from '../../assets/img_rose_pie_bg.webp';
-import useStyle from '../../hooks/useStyle';
-import { useRef } from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import imgRosePieGraphic from '../../assets/img_rose_pie_graphic.png';
 import useChartLoop from '../../hooks/useChartLoop';
 import useNodeBoundingRect from '../../hooks/useNodeBoundingRect';
+import useStyle from '../../hooks/useStyle';
 
-type ECOption = echarts.ComposeOption<
-  PieSeriesOption | TooltipComponentOption | GraphicComponentOption
->;
+type ECOption = echarts.ComposeOption<PieSeriesOption | TooltipComponentOption | GraphicComponentOption>;
 
 echarts.use([TooltipComponent, PieChart, GraphicComponent]);
 
@@ -49,19 +40,7 @@ export interface ImgRosePieProps {
 
 /** 带图片的玫瑰图-对应Figma饼图5 */
 export default forwardRef<ReactEcharts, ImgRosePieProps>(
-  (
-    {
-      seriesData,
-      style,
-      imgStyle,
-      config,
-      pieColors = [],
-      duration = 2000,
-      autoLoop = false,
-      onEvents,
-    },
-    ref,
-  ) => {
+  ({ seriesData, style, imgStyle, config, pieColors = [], duration = 2000, autoLoop = false, onEvents }, ref) => {
     const theme = useTheme();
     const baseChartConfig = useBaseChartConfig();
     const basePieConfig = useBasePieConfig();
@@ -76,7 +55,7 @@ export default forwardRef<ReactEcharts, ImgRosePieProps>(
       ref,
       seriesData.filter((_item, idx) => activeLegends.includes(idx)),
       autoLoop,
-      duration,
+      duration
     );
 
     const divRef = useRef<HTMLDivElement>(null);
@@ -89,18 +68,15 @@ export default forwardRef<ReactEcharts, ImgRosePieProps>(
     }, [length]);
 
     // 记录图例改变后的数据
-    const legendSelectChanged = useCallback(
-      ({ selected }: { selected: { [name: string]: boolean } }) => {
-        const selectArr: number[] = [];
-        Object.keys(selected).forEach((key, index) => {
-          if (selected[key]) {
-            selectArr.push(index);
-          }
-        });
-        setActiveLegends(selectArr);
-      },
-      [],
-    );
+    const legendSelectChanged = useCallback(({ selected }: { selected: { [name: string]: boolean } }) => {
+      const selectArr: number[] = [];
+      Object.keys(selected).forEach((key, index) => {
+        if (selected[key]) {
+          selectArr.push(index);
+        }
+      });
+      setActiveLegends(selectArr);
+    }, []);
 
     const baseColors = useMemo(() => {
       if (pieColors?.length > 0 && pieColors?.length >= seriesData?.length) {
@@ -125,10 +101,7 @@ export default forwardRef<ReactEcharts, ImgRosePieProps>(
       theme.colors.primary500,
     ]);
 
-    const colors = useMemo(
-      () => baseColors.map((item) => createLinearGradient(item)),
-      [baseColors],
-    );
+    const colors = useMemo(() => baseColors.map(item => createLinearGradient(item)), [baseColors]);
 
     const option = useMemo(() => {
       return merge(
@@ -176,17 +149,9 @@ export default forwardRef<ReactEcharts, ImgRosePieProps>(
             },
           },
         },
-        config,
+        config
       ) as ECOption;
-    }, [
-      baseChartConfig.legend,
-      basePieConfig,
-      seriesData,
-      theme.colors.gray50,
-      colors,
-      theme.typography.p2,
-      config,
-    ]);
+    }, [baseChartConfig.legend, basePieConfig, seriesData, theme.colors.gray50, colors, theme.typography.p2, config]);
 
     return (
       <div style={modifiedStyle} ref={divRef}>
@@ -234,5 +199,5 @@ export default forwardRef<ReactEcharts, ImgRosePieProps>(
         />
       </div>
     );
-  },
+  }
 );

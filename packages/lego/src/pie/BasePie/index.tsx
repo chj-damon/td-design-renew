@@ -1,38 +1,29 @@
-import React, {
-  CSSProperties,
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
 import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts/core';
 import {
   PieChart,
   // 系列类型的定义后缀都为 SeriesOption
   PieSeriesOption,
 } from 'echarts/charts';
 import {
-  TooltipComponentOption,
   // 组件类型的定义后缀都为 ComponentOption
   GridComponent,
   GridComponentOption,
   LegendComponent,
+  TooltipComponentOption,
 } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { merge } from 'lodash-es';
+import React, { CSSProperties, forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 
-import createLinearGradient from '../../utils/createLinearGradient';
+import useChartLoop from '../../hooks/useChartLoop';
 import useTheme from '../../hooks/useTheme';
+import createLinearGradient from '../../utils/createLinearGradient';
 import chartBg from './assets/chart_bg.svg';
 import legendBg from './assets/legend_bg.svg';
-import useChartLoop from '../../hooks/useChartLoop';
 
 // 通过 ComposeOption 来组合出一个只有必须组件和图表的 Option 类型
-type ECOption = echarts.ComposeOption<
-  PieSeriesOption | TooltipComponentOption | GridComponentOption
->;
+type ECOption = echarts.ComposeOption<PieSeriesOption | TooltipComponentOption | GridComponentOption>;
 
 // 注册必须的组件
 echarts.use([GridComponent, PieChart, CanvasRenderer, LegendComponent]);
@@ -71,7 +62,7 @@ const BasePie = forwardRef<ReactEcharts, BasePieProps>(
       onEvents,
       legendPosition = 'right',
     },
-    ref,
+    ref
   ) => {
     const theme = useTheme();
     // 图例选中的下标，图例不选中时不轮播
@@ -80,7 +71,7 @@ const BasePie = forwardRef<ReactEcharts, BasePieProps>(
       ref,
       data.filter((_item, idx) => activeLegends.includes(idx)),
       autoLoop,
-      duration,
+      duration
     );
     // 数据长度，轮播时使用
     const length = data.length;
@@ -90,7 +81,7 @@ const BasePie = forwardRef<ReactEcharts, BasePieProps>(
       height: number;
     }>();
 
-    const containerRef = useCallback((node) => {
+    const containerRef = useCallback(node => {
       if (node !== null) {
         setWidthAndHeight({
           height: node.getBoundingClientRect().height,
@@ -122,10 +113,7 @@ const BasePie = forwardRef<ReactEcharts, BasePieProps>(
       theme.colors.primary500,
     ]);
 
-    const colors = useMemo(
-      () => baseColors.map((item) => createLinearGradient(item)),
-      [baseColors],
-    );
+    const colors = useMemo(() => baseColors.map(item => createLinearGradient(item)), [baseColors]);
 
     const { imageRadius, left, centerX } = useMemo(() => {
       if (!widthAndHeight) {
@@ -155,16 +143,16 @@ const BasePie = forwardRef<ReactEcharts, BasePieProps>(
     const newData = useMemo(() => {
       const total = Math.round(
         data
-          ?.map((item) => +item.value)
+          ?.map(item => +item.value)
           .reduce((value: number, total: number) => {
             return value + total;
-          }, 0),
+          }, 0)
       );
 
       //增加百分比
       let formatData = data;
       if (data?.[0]?.percent) {
-        formatData = data.map((item) => {
+        formatData = data.map(item => {
           return {
             ...item,
             value: Math.round(+item.value),
@@ -201,7 +189,7 @@ const BasePie = forwardRef<ReactEcharts, BasePieProps>(
                 borderColor: 'rgba(0, 0, 0, 0)',
                 borderWidth: 0,
               },
-            },
+            }
           );
         }
       }
@@ -253,7 +241,7 @@ const BasePie = forwardRef<ReactEcharts, BasePieProps>(
           : {
               left: 0,
               bottom: 0,
-            },
+            }
       );
 
       return merge(
@@ -283,10 +271,7 @@ const BasePie = forwardRef<ReactEcharts, BasePieProps>(
               name: '',
               type: 'pie',
               radius: [imageRadius / 2 - 20, imageRadius / 2 - 5],
-              center: [
-                centerX,
-                legendPosition === 'right' ? '50%' : imageRadius / 2 + 20,
-              ],
+              center: [centerX, legendPosition === 'right' ? '50%' : imageRadius / 2 + 20],
               hoverAnimation: false,
               legendHoverLink: !autoLoop,
               silent: autoLoop,
@@ -299,13 +284,8 @@ const BasePie = forwardRef<ReactEcharts, BasePieProps>(
                 position: 'center',
                 formatter: ({ data }: { data: DataType }) => {
                   if (!data.name) return;
-                  if (onlyPercentage)
-                    return `{a|${data.name}}{b|\n${data.percent?.toFixed(
-                      2,
-                    )}}{c|%}`;
-                  return `{a|${data.name}}{b|\n${data.percent?.toFixed(
-                    2,
-                  )}}{c|%}{d|\n${data.value}${unit}}`;
+                  if (onlyPercentage) return `{a|${data.name}}{b|\n${data.percent?.toFixed(2)}}{c|%}`;
+                  return `{a|${data.name}}{b|\n${data.percent?.toFixed(2)}}{c|%}{d|\n${data.value}${unit}}`;
                 },
                 rich: {
                   a: {
@@ -345,7 +325,7 @@ const BasePie = forwardRef<ReactEcharts, BasePieProps>(
             },
           ],
         },
-        config,
+        config
       ) as ECOption;
     }, [
       data,
@@ -373,18 +353,15 @@ const BasePie = forwardRef<ReactEcharts, BasePieProps>(
     }, [length]);
 
     // 记录图例的显示下标
-    const handleLegendSelectChanged = useCallback(
-      ({ selected }: { selected: { [name: string]: boolean } }) => {
-        const selectArr: number[] = [];
-        Object.keys(selected).forEach((key, index) => {
-          if (selected[key]) {
-            selectArr.push(index);
-          }
-        });
-        setActiveLegends(selectArr);
-      },
-      [],
-    );
+    const handleLegendSelectChanged = useCallback(({ selected }: { selected: { [name: string]: boolean } }) => {
+      const selectArr: number[] = [];
+      Object.keys(selected).forEach((key, index) => {
+        if (selected[key]) {
+          selectArr.push(index);
+        }
+      });
+      setActiveLegends(selectArr);
+    }, []);
 
     return (
       <div style={style} ref={containerRef}>
@@ -400,7 +377,7 @@ const BasePie = forwardRef<ReactEcharts, BasePieProps>(
         />
       </div>
     );
-  },
+  }
 );
 
 export default BasePie;

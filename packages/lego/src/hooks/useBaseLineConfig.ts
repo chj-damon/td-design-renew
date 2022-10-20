@@ -1,7 +1,4 @@
-import {
-  // 系列类型的定义后缀都为 SeriesOption
-  LineSeriesOption,
-} from 'echarts/charts';
+import { LineSeriesOption } from 'echarts/charts';
 import { useMemo } from 'react';
 import useTheme from './useTheme';
 
@@ -24,7 +21,7 @@ export default function useBaseLineConfig(inModal = false) {
         width: 3,
       },
     }),
-    [inModal, theme.colors.gray100, theme.typography],
+    [inModal, theme.colors.gray100, theme.typography]
   );
 
   return option;

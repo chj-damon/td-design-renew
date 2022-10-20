@@ -1,20 +1,16 @@
-import * as echarts from 'echarts/core';
 import {
-  TooltipComponentOption,
-  // 组件类型的定义后缀都为 ComponentOption
   GridComponentOption,
   LegendComponentOption,
   SingleAxisComponentOption,
+  TooltipComponentOption,
 } from 'echarts/components';
-import useTheme from './useTheme';
+import * as echarts from 'echarts/core';
 import { useMemo } from 'react';
+import useTheme from './useTheme';
 
 // 通过 ComposeOption 来组合出一个只有必须组件和图表的 Option 类型
 type ECOption = echarts.ComposeOption<
-  | TooltipComponentOption
-  | GridComponentOption
-  | LegendComponentOption
-  | SingleAxisComponentOption
+  TooltipComponentOption | GridComponentOption | LegendComponentOption | SingleAxisComponentOption
 >;
 
 /**
@@ -56,30 +52,22 @@ export default function useBaseChartConfig(inModal = false, unit?: string) {
         },
         formatter: function (params: any) {
           const strs = params
-            .filter(
-              (i: any) => i.seriesName && !i.seriesName.includes('series'),
-            )
+            .filter((i: any) => i.seriesName && !i.seriesName.includes('series'))
             .map((item: any) => {
               const value =
-                item.data &&
-                typeof item.data === 'object' &&
-                'value' in item.data
-                  ? item?.data?.value
-                  : item?.data;
+                item.data && typeof item.data === 'object' && 'value' in item.data ? item?.data?.value : item?.data;
               return `
                 <div style="display: flex; align-items: center;">
                   <div style="
                     width: 7px;
                     height: 7px;
-                    background: linear-gradient(180deg, ${
-                      item?.color?.colorStops?.[0]?.color
-                    } 0%, ${item?.color?.colorStops?.[1]?.color} 100%);
+                    background: linear-gradient(180deg, ${item?.color?.colorStops?.[0]?.color} 0%, ${
+                item?.color?.colorStops?.[1]?.color
+              } 100%);
                     margin-right: 4px;
                     border-radius: 7px;
                   "></div>
-                  ${item?.seriesName}：${value} ${
-                unit ?? item?.data?.unit ?? ''
-              }
+                  ${item?.seriesName}：${value} ${unit ?? item?.data?.unit ?? ''}
                 </div>
               `;
             });
@@ -153,14 +141,7 @@ export default function useBaseChartConfig(inModal = false, unit?: string) {
         },
       },
     }),
-    [
-      inModal,
-      theme.colors.assist200,
-      theme.colors.gray100,
-      theme.colors.gray200,
-      theme.typography,
-      unit,
-    ],
+    [inModal, theme.colors.assist200, theme.colors.gray100, theme.colors.gray200, theme.typography, unit]
   );
 
   return option;

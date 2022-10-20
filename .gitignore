@@ -19,10 +19,6 @@ packages/**/node_modules
 .umi-production
 .env.local
 
-# ide
-/.vscode
-/.idea
-
 .turbo
 packages/**/lib/**
 build/**

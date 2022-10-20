@@ -1,12 +1,12 @@
-import React, { CSSProperties, memo, ReactElement, ReactNode } from 'react';
+import React, { memo, ReactElement, ReactNode } from 'react';
 
-import { Autoplay } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/modules/pagination/pagination.min.css';
-import './index.less';
-import useTheme from '../../hooks/useTheme';
 import classnames from 'classnames';
 import { isEmpty } from 'lodash-es';
+import { Autoplay } from 'swiper';
+import 'swiper/modules/pagination/pagination.min.css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import useTheme from '../../hooks/useTheme';
+import './index.less';
 
 export type TextAlign = 'center' | 'left' | 'right';
 
@@ -58,13 +58,7 @@ function Table<T extends Record<string, any>>({
 }: CustomTableProps<T>) {
   const theme = useTheme();
 
-  const cellStyle = ({
-    width,
-    flex,
-  }: {
-    width: number | string;
-    flex?: number;
-  }) => {
+  const cellStyle = ({ width, flex }: { width: number | string; flex?: number }) => {
     if (flex) {
       return { flex };
     }
@@ -72,8 +66,7 @@ function Table<T extends Record<string, any>>({
     return { width };
   };
 
-  const slidesPerViewParams =
-    countPerview > data.length ? data.length : countPerview;
+  const slidesPerViewParams = countPerview > data.length ? data.length : countPerview;
   const lineHeight = height / slidesPerViewParams;
 
   return (
@@ -85,11 +78,8 @@ function Table<T extends Record<string, any>>({
             style={{ backgroundColor: colors?.[2] ?? colors?.[1] }}
           >
             {!isEmpty(columns) && (
-              <div
-                className="td-lego-table-content"
-                style={{ height: lineHeight }}
-              >
-                {columns.map((item) => {
+              <div className="td-lego-table-content" style={{ height: lineHeight }}>
+                {columns.map(item => {
                   return (
                     <div
                       className="text"
@@ -142,23 +132,20 @@ function Table<T extends Record<string, any>>({
                           height: lineHeight,
                         }}
                       >
-                        {columns.map((term) => {
+                        {columns.map(term => {
                           return (
                             <div
                               key={term.id}
                               className="text"
                               style={{
                                 ...cellStyle({
-                                  width:
-                                    term.width || `${100 / columns?.length}%`,
+                                  width: term.width || `${100 / columns?.length}%`,
                                   flex: term.flex,
                                 }),
                                 textAlign: term.textAlign,
                               }}
                             >
-                              {term.render
-                                ? term.render(item)
-                                : item?.[term.dataIndex]}
+                              {term.render ? term.render(item) : item?.[term.dataIndex]}
                             </div>
                           );
                         })}
@@ -212,7 +199,7 @@ const Container = memo(
         {children}
       </Swiper>
     );
-  },
+  }
 );
 
 export default Table;

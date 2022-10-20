@@ -1,20 +1,16 @@
 import { CustomSeriesOption } from 'echarts/charts';
-import createLinearGradient from './createLinearGradient';
-import { Theme } from '../theme';
 import { CustomSeriesRenderItemReturn } from 'echarts/types/dist/shared';
 import { registerCylinderShape } from '../registerShape';
+import { Theme } from '../theme';
+import createLinearGradient from './createLinearGradient';
 
-export default function createCylinderSeries(
-  theme: Theme,
-  seriesData: BarSeriesData,
-  yAxisIndex: number,
-) {
+export default function createCylinderSeries(theme: Theme, seriesData: BarSeriesData, yAxisIndex: number) {
   registerCylinderShape();
 
   return {
     type: 'custom',
     name: seriesData.name,
-    data: seriesData.data.map((item) => {
+    data: seriesData.data.map(item => {
       if (typeof item === 'object') {
         return { ...item, unit: seriesData.unit };
       }
@@ -55,10 +51,7 @@ export default function createCylinderSeries(
             type: 'CylinderTop',
             shape,
             style: {
-              fill:
-                seriesIndex === 0
-                  ? theme.colors.assist700
-                  : theme.colors.assist800,
+              fill: seriesIndex === 0 ? theme.colors.assist700 : theme.colors.assist800,
             },
             styleEmphasis: {
               shadowBlur: 20,

@@ -1,34 +1,32 @@
-import React, { CSSProperties, forwardRef, useMemo } from 'react';
 import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts/core';
 import {
   CustomChart,
   // 系列类型的定义后缀都为 SeriesOption
   CustomSeriesOption,
 } from 'echarts/charts';
 import {
-  TooltipComponent,
-  TooltipComponentOption,
   // 组件类型的定义后缀都为 ComponentOption
   GridComponent,
   GridComponentOption,
+  TooltipComponent,
+  TooltipComponentOption,
 } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { merge } from 'lodash-es';
+import React, { CSSProperties, forwardRef, useMemo } from 'react';
 
-import createLinearGradient from '../../utils/createLinearGradient';
 import { TooltipOption, YAXisOption } from 'echarts/types/dist/shared';
-import useTheme from '../../hooks/useTheme';
 import useBaseBarConfig from '../../hooks/useBaseBarConfig';
 import useBaseChartConfig from '../../hooks/useBaseChartConfig';
 import useChartLoop from '../../hooks/useChartLoop';
 import useStyle from '../../hooks/useStyle';
+import useTheme from '../../hooks/useTheme';
 import createCylinderShadowSeries from '../../utils/createCylinderShadowSeries';
+import createLinearGradient from '../../utils/createLinearGradient';
 
 // 通过 ComposeOption 来组合出一个只有必须组件和图表的 Option 类型
-type ECOption = echarts.ComposeOption<
-  CustomSeriesOption | TooltipComponentOption | GridComponentOption
->;
+type ECOption = echarts.ComposeOption<CustomSeriesOption | TooltipComponentOption | GridComponentOption>;
 
 // 注册必须的组件
 echarts.use([TooltipComponent, GridComponent, CustomChart, CanvasRenderer]);
@@ -71,7 +69,7 @@ export default forwardRef<ReactEcharts, CylinderShadowBarProps>(
       showYAxisLine = true,
       onEvents,
     },
-    ref,
+    ref
   ) => {
     const theme = useTheme();
     const baseBarConfig = useBaseBarConfig(inModal);
@@ -101,15 +99,13 @@ export default forwardRef<ReactEcharts, CylinderShadowBarProps>(
               <div style="
                 width: 7px;
                 height: 7px;
-                background: linear-gradient(180deg, ${params[0]?.color} 0%, ${
-                params[0]?.color
-              } 100%);
+                background: linear-gradient(180deg, ${params[0]?.color} 0%, ${params[0]?.color} 100%);
                 margin-right: 4px;
                 border-radius: 7px;
               "></div>
-              ${params[0]?.seriesName}：${
-                params[0]?.data?.value || params[0]?.data
-              } ${unit ?? params[0]?.data?.unit ?? ''}
+              ${params[0]?.seriesName}：${params[0]?.data?.value || params[0]?.data} ${
+                unit ?? params[0]?.data?.unit ?? ''
+              }
             </div>
           `;
 
@@ -143,14 +139,9 @@ export default forwardRef<ReactEcharts, CylinderShadowBarProps>(
               show: showYAxisLine,
             },
           },
-          series: createCylinderShadowSeries(
-            theme,
-            baseBarConfig,
-            { name, data },
-            max,
-          ),
+          series: createCylinderShadowSeries(theme, baseBarConfig, { name, data }, max),
         },
-        config,
+        config
       ) as ECOption;
     }, [
       theme,
@@ -181,5 +172,5 @@ export default forwardRef<ReactEcharts, CylinderShadowBarProps>(
         />
       </div>
     );
-  },
+  }
 );

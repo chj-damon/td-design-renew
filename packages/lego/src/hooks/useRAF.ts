@@ -1,5 +1,5 @@
-import RAF from '../utils/RAF';
 import { useMemo } from 'react';
+import RAF from '../utils/RAF';
 
 export function useRAF() {
   const raf = useMemo(() => {

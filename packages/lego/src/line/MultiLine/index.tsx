@@ -1,26 +1,19 @@
-import React, { CSSProperties, forwardRef, useMemo } from 'react';
-import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts/core';
-import { LineChart, LineSeriesOption } from 'echarts/charts';
-import {
-  TooltipComponent,
-  TooltipComponentOption,
-  GridComponent,
-  GridComponentOption,
-} from 'echarts/components';
 import Color from 'color';
+import ReactEcharts from 'echarts-for-react';
+import { LineChart, LineSeriesOption } from 'echarts/charts';
+import { GridComponent, GridComponentOption, TooltipComponent, TooltipComponentOption } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { merge } from 'lodash-es';
+import React, { CSSProperties, forwardRef, useMemo } from 'react';
 
 import { YAXisOption } from 'echarts/types/dist/shared';
-import createLinearGradient from '../../utils/createLinearGradient';
-import useTheme from '../../hooks/useTheme';
 import useBaseChartConfig from '../../hooks/useBaseChartConfig';
 import useBaseLineConfig from '../../hooks/useBaseLineConfig';
 import useChartLoop from '../../hooks/useChartLoop';
+import useTheme from '../../hooks/useTheme';
+import createLinearGradient from '../../utils/createLinearGradient';
 
-type ECOption = echarts.ComposeOption<
-  LineSeriesOption | TooltipComponentOption | GridComponentOption
->;
+type ECOption = echarts.ComposeOption<LineSeriesOption | TooltipComponentOption | GridComponentOption>;
 
 echarts.use([TooltipComponent, GridComponent, LineChart]);
 
@@ -61,7 +54,7 @@ export default forwardRef<ReactEcharts, MultiLineProps>(
       lineColors = [],
       showYAxisLine = true,
     },
-    ref,
+    ref
   ) => {
     const theme = useTheme();
     const baseChartConfig = useBaseChartConfig(inModal);
@@ -91,10 +84,7 @@ export default forwardRef<ReactEcharts, MultiLineProps>(
       theme.colors.primary500,
     ]);
 
-    const colors = useMemo(
-      () => baseColors.map((item) => createLinearGradient(item)),
-      [baseColors],
-    );
+    const colors = useMemo(() => baseColors.map(item => createLinearGradient(item)), [baseColors]);
 
     const option = useMemo(() => {
       const getColorsByIndex = (index: number) => {
@@ -102,10 +92,7 @@ export default forwardRef<ReactEcharts, MultiLineProps>(
       };
 
       const getAreaColorsByIndex = (index: number) => {
-        const _color = [
-          Color(baseColors[index][1]).alpha(0).string(),
-          Color(baseColors[index][0]).alpha(0.4).string(),
-        ];
+        const _color = [Color(baseColors[index][1]).alpha(0).string(), Color(baseColors[index][0]).alpha(0.4).string()];
         return createLinearGradient(_color);
       };
       return merge(
@@ -142,7 +129,7 @@ export default forwardRef<ReactEcharts, MultiLineProps>(
             },
           })),
           series: seriesData.map((item, index) => {
-            const data = item.data.map((ele) => ({
+            const data = item.data.map(ele => ({
               name: ele.name,
               value: ele.value ? +ele.value : 0,
               unit: yAxis[item.yAxisIndex]?.name,
@@ -174,7 +161,7 @@ export default forwardRef<ReactEcharts, MultiLineProps>(
             };
           }),
         },
-        config,
+        config
       ) as ECOption;
     }, [
       colors,
@@ -193,14 +180,7 @@ export default forwardRef<ReactEcharts, MultiLineProps>(
     ]);
 
     return (
-      <ReactEcharts
-        ref={echartsRef}
-        style={style}
-        echarts={echarts}
-        notMerge
-        option={option}
-        onEvents={onEvents}
-      />
+      <ReactEcharts ref={echartsRef} style={style} echarts={echarts} notMerge option={option} onEvents={onEvents} />
     );
-  },
+  }
 );
