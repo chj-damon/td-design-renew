@@ -24,5 +24,6 @@ packages/**/lib/**
 build/**
 dist/**
 .next/**
+.jest
 
 docs-dist

@@ -3,18 +3,14 @@
     "target": "ES5",
     "moduleResolution": "node",
     "jsx": "react",
+    "allowJs": true,
     "esModuleInterop": true,
     "downlevelIteration": true,
-    "sourceMap": true,
-    "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "declaration": false,
     "strictNullChecks": true,
-    "paths": {
-      "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"]
-    }
+    "baseUrl": "."
   },
-  "exclude": ["node_modules", "lib", "es", "dist", "typings", "**/__test__", "test", "docs", "tests"]
+  "exclude": ["node_modules", "lib", "es", "dist", "**/index.test.ts", "**/demo", "coverage", "**/*.js"]
 }
