@@ -1,0 +1,30 @@
+{
+  "name": "eslint-plugin-replace-hooks",
+  "version": "1.0.3",
+  "description": "replace some hooks by other hooks",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin"
+  ],
+  "author": "chjdamon<chj_0507_dz@sina.com>",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "gulp",
+    "lint": "eslint .",
+    "test": "mocha tests --recursive"
+  },
+  "devDependencies": {
+    "del": "^6.0.0",
+    "eslint": "^8.25.0",
+    "eslint-plugin-es": "^4.1.0",
+    "eslint-plugin-eslint-plugin": "^5.0.6",
+    "eslint-plugin-node": "^11.1.0",
+    "gulp": "^4.0.2",
+    "mocha": "^10.1.0"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "requireindex": "^1.2.0"
+  }
+}
