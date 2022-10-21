@@ -44,7 +44,6 @@
   "devDependencies": {
     "@types/color": "^3.0.3",
     "@types/lodash-es": "^4.17.6",
-    "@types/node": "^18.11.2",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "del": "^6.0.0",

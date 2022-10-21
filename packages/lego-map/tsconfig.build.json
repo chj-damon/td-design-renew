@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES5",
+    "lib": ["dom", "ESNext"],
     "moduleResolution": "node",
     "jsx": "react",
     "allowJs": true,
