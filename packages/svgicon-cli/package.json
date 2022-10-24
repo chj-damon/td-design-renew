@@ -21,11 +21,6 @@
   "scripts": {
     "build": "gulp"
   },
-  "peerDependencies": {
-    "react": "*",
-    "react-native": "*",
-    "react-native-svg": ">=9.7.0"
-  },
   "dependencies": {
     "colors": "^1.3.3",
     "glob": "^7.1.4",

@@ -1,0 +1,51 @@
+{
+  "name": "@td-design/react-native-image-picker",
+  "version": "1.6.2",
+  "description": "基于 @td-design/react-native 的 image-picker 组件",
+  "keywords": [
+    "restyle",
+    "react-native-library"
+  ],
+  "license": "Apache-2.0",
+  "author": "thundersdata-frontend",
+  "main": "lib/module/index.js",
+  "module": "lib/module/index.js",
+  "types": "lib/typescript/index.d.ts",
+  "files": [
+    "lib",
+    "android",
+    "ios"
+  ],
+  "scripts": {
+    "build": "bob build",
+    "tsc": "tsc -p ./tsconfig.json"
+  },
+  "devDependencies": {
+    "@shopify/restyle": "^2.1.0",
+    "@td-design/react-native": "^3.11.6",
+    "@td-design/rn-hooks": "^2.4.0",
+    "@types/react": "^18.0.21",
+    "@types/react-native": "0.70.6",
+    "react-native-builder-bob": "^0.20.0",
+    "react-native-image-picker": "^4.10.0",
+    "typescript": "^4.8.4"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "gitHead": "a230ae795ff160ad5a251dc51dbe6aab56f6eb61",
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "module",
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ]
+  }
+}

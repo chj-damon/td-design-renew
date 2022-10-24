@@ -1,0 +1,49 @@
+{
+  "name": "@td-design/react-native-share",
+  "version": "1.3.2",
+  "description": "基于 @td-design/react-native 的 share 组件",
+  "main": "lib/module/index.js",
+  "module": "lib/module/index.js",
+  "types": "lib/typescript/index.d.ts",
+  "files": [
+    "lib",
+    "android",
+    "ios"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "scripts": {
+    "build": "bob build",
+    "tsc": "tsc -p ./tsconfig.json"
+  },
+  "keywords": [
+    "restyle",
+    "react-native-library"
+  ],
+  "author": "thundersdata-frontend",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@shopify/restyle": "^2.1.0",
+    "@td-design/react-native": "^3.6.1",
+    "@types/react": "^18.0.21",
+    "@types/react-native": "^0.70.6",
+    "react-native-builder-bob": "^0.20.0",
+    "react-native-svg": "^13.4.0",
+    "typescript": "^4.8.4"
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "module",
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ]
+  }
+}
