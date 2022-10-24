@@ -20,11 +20,8 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,md,json}": [
-      "prettier --write"
-    ],
-    "*.ts?(x)": [
-      "prettier --parser=typescript --write"
+    "*.{ts,tsx,md}": [
+      "npm run prettier"
     ]
   },
   "devDependencies": {
