@@ -1,4 +1,5 @@
 import { act, renderHook } from '@testing-library/react-hooks';
+
 import useRafInterval from './index';
 
 const FRAME_TIME = 16.7;

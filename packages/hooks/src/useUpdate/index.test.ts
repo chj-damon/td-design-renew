@@ -1,5 +1,6 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import { useRef } from 'react';
+
 import useMemoizedFn from '../useMemoizedFn';
 import useUpdate from './index';
 

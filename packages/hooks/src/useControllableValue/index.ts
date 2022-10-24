@@ -1,5 +1,6 @@
 import type { SetStateAction } from 'react';
 import { useMemo, useRef } from 'react';
+
 import useMemoizedFn from '../useMemoizedFn';
 import useUpdate from '../useUpdate';
 import { isFunction } from '../utils';

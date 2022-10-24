@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { AccessibilityChangeEventName, AccessibilityInfo } from 'react-native';
+
 import useSafeState from '../useSafeState';
 
 type AccessibilityInfoStaticInitializers =

@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+
 import type { Plugin } from '../types';
 
 export const useRetryPlugin: Plugin<any, any[]> = (fetchInstance, { retryInterval, retryCount }) => {

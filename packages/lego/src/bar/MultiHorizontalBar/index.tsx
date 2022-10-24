@@ -1,7 +1,7 @@
+import * as echarts from 'echarts/core';
 import ReactEcharts from 'echarts-for-react';
 import {
-  PictorialBarChart,
-  // 系列类型的定义后缀都为 SeriesOption
+  PictorialBarChart, // 系列类型的定义后缀都为 SeriesOption
   PictorialBarSeriesOption,
 } from 'echarts/charts';
 import {
@@ -13,7 +13,6 @@ import {
   TooltipComponent,
   TooltipComponentOption,
 } from 'echarts/components';
-import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { TooltipOption, YAXisOption } from 'echarts/types/dist/shared';
 import { merge } from 'lodash-es';

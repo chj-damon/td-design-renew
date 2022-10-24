@@ -5,7 +5,6 @@ import useMount from '../useMount';
 import useUnmount from '../useUnmount';
 import useUpdate from '../useUpdate';
 import Fetch from './Fetch';
-
 import type { Options, Plugin, Result, Service } from './types';
 
 export default function useRequestImpl<TData, TParams extends any[]>(

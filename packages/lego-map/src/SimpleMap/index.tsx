@@ -1,6 +1,6 @@
+import * as echarts from 'echarts/core';
 import type { EChartsOption, SeriesOption } from 'echarts';
 import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts/core';
 import { isArray, merge } from 'lodash-es';
 import React, { CSSProperties, forwardRef, useEffect, useState } from 'react';
 

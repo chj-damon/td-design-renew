@@ -1,7 +1,7 @@
+import * as echarts from 'echarts/core';
 import ReactEcharts from 'echarts-for-react';
 import {
-  BarChart,
-  // 系列类型的定义后缀都为 SeriesOption
+  BarChart, // 系列类型的定义后缀都为 SeriesOption
   BarSeriesOption,
 } from 'echarts/charts';
 import {
@@ -13,7 +13,6 @@ import {
   TooltipComponent,
   TooltipComponentOption,
 } from 'echarts/components';
-import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { merge } from 'lodash-es';
 import React, { CSSProperties, forwardRef, useMemo } from 'react';

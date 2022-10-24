@@ -1,6 +1,7 @@
 import colors from 'colors';
 import fs from 'fs';
 import path from 'path';
+
 import defaultConfig from './svgicon.json';
 
 export interface Config {

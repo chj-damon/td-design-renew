@@ -1,5 +1,6 @@
 import color from 'color';
 import React, { CSSProperties, useCallback, useEffect, useMemo, useRef } from 'react';
+
 import useNodeBoundingRect from '../../hooks/useNodeBoundingRect';
 import useStyle from '../../hooks/useStyle';
 import useTheme from '../../hooks/useTheme';

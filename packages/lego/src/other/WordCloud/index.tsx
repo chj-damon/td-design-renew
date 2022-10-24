@@ -1,6 +1,6 @@
+import * as echarts from 'echarts/core';
 import ReactEcharts from 'echarts-for-react';
 import 'echarts-wordcloud';
-import * as echarts from 'echarts/core';
 import { merge } from 'lodash-es';
 import React, { forwardRef, useMemo } from 'react';
 

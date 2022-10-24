@@ -1,21 +1,20 @@
+import * as echarts from 'echarts/core';
 import ReactEcharts from 'echarts-for-react';
 import { PieChart, PieSeriesOption } from 'echarts/charts';
 import { GraphicComponent, GraphicComponentOption, TooltipComponent, TooltipComponentOption } from 'echarts/components';
-import * as echarts from 'echarts/core';
 import { merge } from 'lodash-es';
 import React, { CSSProperties, forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import useBaseChartConfig from '../../hooks/useBaseChartConfig';
-import useBasePieConfig from '../../hooks/useBasePieConfig';
-import useTheme from '../../hooks/useTheme';
-import createLinearGradient from '../../utils/createLinearGradient';
-
 import imgPieBg from '../../assets/img_pie_bg.webp';
 import imgPieGraphic from '../../assets/img_pie_graphic.png';
+import useBaseChartConfig from '../../hooks/useBaseChartConfig';
+import useBasePieConfig from '../../hooks/useBasePieConfig';
 import useEchartsRef from '../../hooks/useEchartsRef';
 import useNodeBoundingRect from '../../hooks/useNodeBoundingRect';
 import { useRAF } from '../../hooks/useRAF';
 import useStyle from '../../hooks/useStyle';
+import useTheme from '../../hooks/useTheme';
+import createLinearGradient from '../../utils/createLinearGradient';
 
 type ECOption = echarts.ComposeOption<PieSeriesOption | TooltipComponentOption | GraphicComponentOption>;
 

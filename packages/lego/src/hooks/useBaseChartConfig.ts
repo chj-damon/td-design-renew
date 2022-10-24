@@ -1,11 +1,12 @@
+import * as echarts from 'echarts/core';
 import {
   GridComponentOption,
   LegendComponentOption,
   SingleAxisComponentOption,
   TooltipComponentOption,
 } from 'echarts/components';
-import * as echarts from 'echarts/core';
 import { useMemo } from 'react';
+
 import useTheme from './useTheme';
 
 // 通过 ComposeOption 来组合出一个只有必须组件和图表的 Option 类型

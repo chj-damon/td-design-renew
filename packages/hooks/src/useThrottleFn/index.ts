@@ -1,4 +1,5 @@
 import { throttle } from 'lodash-es';
+
 import useCreation from '../useCreation';
 import useLatest from '../useLatest';
 import type { ThrottleOptions } from '../useThrottle/ThrottleOptions';

@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import glob from 'glob';
 import path from 'path';
+
 import { Config } from '../libs/getConfig';
 
 export interface ILocalSvg {

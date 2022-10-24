@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+
 import type { Plugin } from '../types';
 
 export const useLoadingDelayPlugin: Plugin<any, any[]> = (fetchInstance, { loadingDelay }) => {

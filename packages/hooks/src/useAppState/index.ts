@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { AppState } from 'react-native';
+
 import useSafeState from '../useSafeState';
 
 export default function useAppState() {

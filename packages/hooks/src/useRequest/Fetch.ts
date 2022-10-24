@@ -1,4 +1,5 @@
 import { MutableRefObject } from 'react';
+
 import { isFunction } from '../utils';
 import type { FetchState, Options, PluginReturn, Service, Subscribe } from './types';
 

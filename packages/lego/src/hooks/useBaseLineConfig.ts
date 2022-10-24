@@ -1,5 +1,6 @@
 import { LineSeriesOption } from 'echarts/charts';
 import { useMemo } from 'react';
+
 import useTheme from './useTheme';
 
 /**

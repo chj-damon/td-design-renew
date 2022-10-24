@@ -1,7 +1,7 @@
+import * as echarts from 'echarts/core';
 import ReactEcharts from 'echarts-for-react';
 import {
-  CustomChart,
-  // 系列类型的定义后缀都为 SeriesOption
+  CustomChart, // 系列类型的定义后缀都为 SeriesOption
   CustomSeriesOption,
 } from 'echarts/charts';
 import {
@@ -11,12 +11,11 @@ import {
   TooltipComponent,
   TooltipComponentOption,
 } from 'echarts/components';
-import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
+import { TooltipOption, YAXisOption } from 'echarts/types/dist/shared';
 import { merge } from 'lodash-es';
 import React, { CSSProperties, forwardRef, useMemo } from 'react';
 
-import { TooltipOption, YAXisOption } from 'echarts/types/dist/shared';
 import useBaseChartConfig from '../../hooks/useBaseChartConfig';
 import useChartLoop from '../../hooks/useChartLoop';
 import useTheme from '../../hooks/useTheme';

@@ -1,5 +1,6 @@
 import type { Dispatch, SetStateAction } from 'react';
 import { useRef, useState } from 'react';
+
 import useMemoizedFn from '../useMemoizedFn';
 import useUnmount from '../useUnmount';
 

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Dimensions, ScaledSize } from 'react-native';
+
 import useSafeState from '../useSafeState';
 
 const initialValue = {

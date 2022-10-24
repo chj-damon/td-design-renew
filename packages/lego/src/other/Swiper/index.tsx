@@ -3,6 +3,7 @@ import { Autoplay, Pagination } from 'swiper';
 import 'swiper/modules/pagination/pagination.min.css';
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import 'swiper/swiper.min.css';
+
 import './index.less';
 
 export interface CustomSwiperProps {

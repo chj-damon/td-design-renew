@@ -1,4 +1,5 @@
 import { DependencyList, EffectCallback, useEffect, useState } from 'react';
+
 import type { ThrottleOptions } from '../useThrottle/ThrottleOptions';
 import useThrottleFn from '../useThrottleFn';
 import useUnmount from '../useUnmount';

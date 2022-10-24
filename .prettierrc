@@ -8,6 +8,16 @@
   "arrowParens": "avoid",
   "proseWrap": "never",
   "endOfLine": "auto",
+  "importOrder": [
+    "^@core/(.*)$",
+    "^@server/(.*)$",
+    "^@ui/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderGroupNamespaceSpecifiers": true,
+  "importOrderCaseInsensitive": true,
   "overrides": [
     {
       "files": ".prettierrc",
@@ -15,6 +25,6 @@
     }
   ],
   "plugins": [
-    "prettier-plugin-organize-imports"
+    "@trivago/prettier-plugin-sort-imports"
   ]
 }

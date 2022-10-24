@@ -1,5 +1,6 @@
-import AMapLoader from '@amap/amap-jsapi-loader';
 import * as echarts from 'echarts/core';
+import AMapLoader from '@amap/amap-jsapi-loader';
+
 import chinaJson from '../assets/china';
 import { INITIAL_ADCODE } from './constant';
 

@@ -4,6 +4,7 @@ import glob from 'glob';
 import { camelCase, upperFirst } from 'lodash';
 import mkdirp from 'mkdirp';
 import path from 'path';
+
 import { ILocalSvg } from '../libs/parseLocalSvg';
 import { copyTemplate } from './copyTemplate';
 import { Config } from './getConfig';

@@ -1,7 +1,7 @@
+import * as echarts from 'echarts/core';
 import ReactEcharts from 'echarts-for-react';
 import {
-  PieChart,
-  // 系列类型的定义后缀都为 SeriesOption
+  PieChart, // 系列类型的定义后缀都为 SeriesOption
   PieSeriesOption,
 } from 'echarts/charts';
 import {
@@ -11,7 +11,6 @@ import {
   LegendComponent,
   TooltipComponentOption,
 } from 'echarts/components';
-import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { merge } from 'lodash-es';
 import React, { CSSProperties, forwardRef, useCallback, useEffect, useMemo, useState } from 'react';

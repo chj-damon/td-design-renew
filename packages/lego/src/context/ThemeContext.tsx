@@ -1,4 +1,5 @@
 import React, { createContext, FC } from 'react';
+
 import theme from '../theme';
 
 export const ThemeContext = createContext(theme);

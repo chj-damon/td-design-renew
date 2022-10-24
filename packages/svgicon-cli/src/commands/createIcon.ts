@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 import { generateComponent } from '../libs/generateComponent';
 import { getConfig } from '../libs/getConfig';
 import parseLocalSvg from '../libs/parseLocalSvg';

@@ -1,18 +1,17 @@
+import * as echarts from 'echarts/core';
 import ReactEcharts from 'echarts-for-react';
 import 'echarts-gl';
 import { PieChart, PieSeriesOption } from 'echarts/charts';
 import { GraphicComponent, GraphicComponentOption, TooltipComponent, TooltipComponentOption } from 'echarts/components';
-import * as echarts from 'echarts/core';
 import { merge } from 'lodash-es';
 import React, { CSSProperties, forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 
 import useBaseChartConfig from '../../hooks/useBaseChartConfig';
 import useBasePieConfig from '../../hooks/useBasePieConfig';
-import { useRAF } from '../../hooks/useRAF';
-import useTheme from '../../hooks/useTheme';
-
 import useEchartsRef from '../../hooks/useEchartsRef';
+import { useRAF } from '../../hooks/useRAF';
 import useStyle from '../../hooks/useStyle';
+import useTheme from '../../hooks/useTheme';
 
 type ECOption = echarts.ComposeOption<PieSeriesOption | TooltipComponentOption | GraphicComponentOption>;
 
