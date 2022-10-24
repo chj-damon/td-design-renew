@@ -9,7 +9,7 @@
     "commit": "git-cz",
     "test": "jest --passWithNoTests --detectOpenHandles --watch",
     "coverage": "jest --coverage",
-    "prettier": "prettier --write --cache --cache-strategy content \"**/*.{js,jsx,tsx,ts,md,json}\"",
+    "prettier": "prettier --write --cache --cache-strategy metadata \"**/*.{tsx,ts,md}\"",
     "doc:dev": "dumi dev",
     "doc:build": "dumi build",
     "changeset": "changeset"

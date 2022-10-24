@@ -1,6 +1,9 @@
 **/*.svg
 **/*.ejs
 **/*.html
+**/*.js
+**/*.json
+**/*.jsx
 package.json
 *.yaml
 .umi
