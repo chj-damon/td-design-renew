@@ -1,0 +1,58 @@
+{
+  "name": "@td-design/react-native-amap-search",
+  "version": "1.0.2",
+  "description": "search",
+  "main": "lib/commonjs/index",
+  "module": "lib/module/index",
+  "types": "lib/typescript/index.d.ts",
+  "files": [
+    "lib",
+    "android",
+    "ios",
+    "react-native-amap-search.podspec"
+  ],
+  "scripts": {
+    "build": "bob build"
+  },
+  "keywords": [
+    "react-native",
+    "ios",
+    "android"
+  ],
+  "repository": "https://github.com/thundersdata-frontend/td-design/",
+  "author": "chenyingjie <929104662@qq.com> (https://github.com/thundersdata-frontend/td-design#readme)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/thundersdata-frontend/td-design/issues"
+  },
+  "homepage": "https://github.com/thundersdata-frontend/td-design/#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.21",
+    "@types/react-native": "^0.70.6",
+    "pod-install": "^0.1.38",
+    "react-native-builder-bob": "^0.20.0",
+    "typescript": "^4.8.4"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ]
+  }
+}
