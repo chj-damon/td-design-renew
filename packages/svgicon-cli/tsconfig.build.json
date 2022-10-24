@@ -10,7 +10,8 @@
     "skipLibCheck": true,
     "declaration": false,
     "strictNullChecks": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "resolveJsonModule": true
   },
   "exclude": ["node_modules", "lib", "es", "dist", "**/index.test.ts", "**/demo", "coverage", "**/*.js"]
 }

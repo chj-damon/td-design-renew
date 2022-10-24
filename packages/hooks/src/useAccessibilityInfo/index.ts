@@ -27,7 +27,7 @@ function useAccessibilityStateListener(
       if (typeof subscription?.remove === 'function') {
         subscription.remove();
       } else {
-        // @ts-expect-error - need update @types/react-native@0.65.x
+        // @ts-ignore - need update @types/react-native@0.65.x
         AccessibilityInfo.removeEventListener(eventName, setIsEnabled);
       }
     };

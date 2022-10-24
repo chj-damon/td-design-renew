@@ -1,0 +1,29 @@
+/* tslint:disable */
+/* eslint-disable */
+
+import React, { FC } from 'react';
+import { ViewProps } from 'react-native';
+#svgComponents#
+#helper#
+#px#
+
+export interface SvgIconProps extends GProps, ViewProps {
+  size?: number;
+  width?: number | string;
+  height?: number | string;
+  color?: string | string[];
+}
+
+let #componentName#: FC<SvgIconProps> = ({ size, width = size, height = size, color, ...rest }) => {
+  #xml#
+
+  return (#iconContent#  );
+};
+
+#componentName#.defaultProps = {
+  size: px(#size#),
+};
+
+#componentName# = React.memo ? React.memo(#componentName#) : #componentName#;
+
+export default #componentName#;
